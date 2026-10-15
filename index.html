@@ -50,11 +50,11 @@
     .main-content { flex: 1; min-width: 0; }
 
     .sidebar-right {
-      width: 270px;
+      width: 280px;
       flex-shrink: 0;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
     .card {
@@ -63,6 +63,10 @@
       border-radius: 12px;
       padding: 18px;
       margin-bottom: 16px;
+    }
+
+    .sidebar-right .card {
+      margin-bottom: 0;
     }
 
     .section-title {
@@ -84,7 +88,7 @@
       background: var(--bg-input);
       border: 1px solid var(--border);
       color: var(--text-main);
-      padding: 12px 14px;
+      padding: 11px 14px;
       border-radius: 8px;
       cursor: pointer;
       text-align: left;
@@ -95,10 +99,63 @@
       gap: 10px;
     }
 
+    .nav-btn:hover {
+      border-color: var(--accent-start);
+    }
+
     .nav-btn.active {
       background: var(--accent-grad);
       border-color: transparent;
       color: #fff;
+    }
+
+    /* Блок инструкций справа */
+    .guide-side-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .guide-side-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guide-side-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .guide-side-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 2px;
+      padding: 8px 12px;
+      border-radius: 7px;
+      background: rgba(99, 102, 241, 0.16);
+      border: 1px solid var(--accent-start);
+      color: #fff;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      width: 100%;
+    }
+
+    .guide-side-btn:hover {
+      background: var(--accent-grad);
+      border-color: transparent;
     }
 
     .online-box {
@@ -399,6 +456,10 @@
       font-weight: 600;
       cursor: pointer;
       font-size: 13px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .btn-primary:active { transform: translateY(1px); }
     .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
@@ -458,7 +519,7 @@
     }
 
     .log-body {
-      max-height: 170px;
+      max-height: 165px;
       overflow-y: auto;
       padding: 8px 12px;
       font-family: "JetBrains Mono", Consolas, monospace;
@@ -491,7 +552,7 @@
       flex-direction: column;
       gap: 8px;
     }
-    .comment-item.pending { border-style: dashed; opacity: 0.75; }
+    .comment-item.pending { border-style: dashed; opacity: 0.7; }
 
     .comment-top {
       display: flex;
@@ -564,6 +625,174 @@
       margin-top: 12px;
     }
 
+    /* ==========================================
+       КРАСИВЫЙ РАЗДЕЛ ИНСТРУКЦИЙ НА САЙТЕ
+       ========================================== */
+    .inst-hero {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.14), rgba(168, 85, 247, 0.14));
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .inst-hero-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .inst-hero-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .inst-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .inst-feature-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .inst-feature-icon {
+      font-size: 20px;
+      margin-bottom: 6px;
+      display: inline-block;
+    }
+
+    .inst-feature-card h4 {
+      font-size: 13.5px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .inst-feature-card p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .inst-steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .inst-step-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .inst-step-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: var(--accent-grad);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .inst-step-body {
+      flex: 1;
+    }
+
+    .inst-step-body h3 {
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    .inst-step-body p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .inst-step-body ul {
+      padding-left: 18px;
+      color: var(--text-muted);
+      font-size: 12.5px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .kbd-badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.16);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #c7d2fe;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 11.5px;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .code-snippet {
+      background: #0d1017;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 12px;
+      color: #a5b4fc;
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+    }
+
+    .inst-faq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .inst-faq-item {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent-start);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .inst-faq-item h4 {
+      font-size: 13px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .inst-faq-item p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
     .hidden { display: none !important; }
 
     @media (max-width: 860px) {
@@ -577,16 +806,18 @@
 <div class="app-layout">
   <main class="main-content">
 
-    <!-- РАЗДЕЛ 1: ГЕНЕРАТОР КОММЕНТАРИЕВ -->
+    <!-- ==========================================
+         РАЗДЕЛ 1: ГЕНЕРАТОР КОММЕНТАРИЕВ
+         ========================================== -->
     <section id="sec-comments">
       <div class="card">
-        <h1 class="section-title">Генератор комментариев AI</h1>
+        <h1 class="section-title">Генератор комментариев AI (Turbo)</h1>
 
         <!-- Авторизация -->
         <div class="auth-bar">
           <div class="auth-modes">
             <button type="button" class="mode-pill active" id="btn-auth-nokey">Без ключа (15с)</button>
-            <button type="button" class="mode-pill" id="btn-auth-key">С ключом</button>
+            <button type="button" class="mode-pill" id="btn-auth-key">С ключом (Быстро ⚡)</button>
           </div>
 
           <div class="api-key-wrap" id="api-key-container">
@@ -682,7 +913,7 @@
 
         <!-- Кнопки -->
         <div class="actions-row">
-          <button type="button" class="btn-primary" id="btn-generate">Сгенерировать новые</button>
+          <button type="button" class="btn-primary" id="btn-generate">⚡ Сгенерировать новые</button>
           <button type="button" class="btn-secondary" id="btn-clear">Очистить</button>
           <button type="button" class="btn-secondary hidden" id="btn-copy-all">📋 Скопировать все</button>
           <button type="button" class="btn-secondary hidden" id="btn-download-txt">💾 Скачать в TXT</button>
@@ -698,7 +929,7 @@
             <button type="button" class="log-clear-btn" id="btn-clear-log">Очистить лог</button>
           </div>
           <div class="log-body" id="gen-log-box">
-            <div class="log-entry info"><span class="log-time">[Система]</span> Готов к быстрой генерации комментариев.</div>
+            <div class="log-entry info"><span class="log-time">[Система]</span> Движок Turbo готов к генерации.</div>
           </div>
         </div>
       </div>
@@ -714,7 +945,9 @@
       </div>
     </section>
 
-    <!-- РАЗДЕЛ 2: ГЕНЕРАТОР ПАРОЛЕЙ -->
+    <!-- ==========================================
+         РАЗДЕЛ 2: ГЕНЕРАТОР ПАРОЛЕЙ
+         ========================================== -->
     <section id="sec-passwords" class="hidden">
       <div class="card">
         <h1 class="section-title">Генератор криптостойких паролей</h1>
@@ -751,17 +984,173 @@
       </div>
     </section>
 
+    <!-- ==========================================
+         РАЗДЕЛ 3: КРАСИВЫЕ ИНСТРУКЦИИ ПРЯМО НА САЙТЕ
+         ========================================== -->
+    <section id="sec-instructions" class="hidden">
+      <div class="card">
+        <h1 class="section-title">Полное руководство: Как пользоваться и запустить свой сайт</h1>
+
+        <!-- Приветственный баннер -->
+        <div class="inst-hero">
+          <div class="inst-hero-title">🚀 Всё работает в одном файле index.html</div>
+          <div class="inst-hero-sub">
+            Этот проект написан на чистом HTML/CSS/JS без сборщиков и платных серверов. Вы можете запустить его локально в два клика или бесплатно разместить в интернете через GitHub Pages за 3 минуты.
+          </div>
+        </div>
+
+        <!-- Карточки ключевых фишек -->
+        <div class="inst-features-grid">
+          <div class="inst-feature-card">
+            <span class="inst-feature-icon">⚡</span>
+            <h4>Турбо-режим (до 50 шт.)</h4>
+            <p>В режиме «С ключом» запросы разбиваются на параллельные потоки — все 50 комментариев создаются в 3 раза быстрее без пауз.</p>
+          </div>
+          <div class="inst-feature-card">
+            <span class="inst-feature-icon">🖼️</span>
+            <h4>Распознавание фото (Vision)</h4>
+            <p>Перетащите до 5 картинок во вкладке «Изображение», и нейросеть напишет живые комментарии по деталям на снимках.</p>
+          </div>
+          <div class="inst-feature-card">
+            <span class="inst-feature-icon">🛡️</span>
+            <h4>Чистый текст без мусора</h4>
+            <p>Все ссылки из исходного поста и технические логи ИИ автоматически вырезаются — в список попадают только чистые комментарии.</p>
+          </div>
+        </div>
+
+        <h2 style="font-size:16px; font-weight:700; margin-bottom:12px; color:#fff;">
+          📘 Пошаговая инструкция: Как сделать свой сайт и выложить на GitHub Pages
+        </h2>
+
+        <!-- Пошаговый таймлайн -->
+        <div class="inst-steps-list">
+          <div class="inst-step-card">
+            <div class="inst-step-num">1</div>
+            <div class="inst-step-body">
+              <h3>Создайте аккаунт на GitHub</h3>
+              <p>Перейдите на <b>github.com</b> и зарегистрируйтесь (Sign Up). Если аккаунт уже есть — просто войдите в него. Обязательно подтвердите почту, иначе функция публикации сайтов GitHub Pages будет неактивна.</p>
+            </div>
+          </div>
+
+          <div class="inst-step-card">
+            <div class="inst-step-num">2</div>
+            <div class="inst-step-body">
+              <h3>Создайте новый публичный репозиторий</h3>
+              <p>В правом верхнем углу нажмите на значок <span class="kbd-badge">+</span> и выберите <span class="kbd-badge">New repository</span>:</p>
+              <ul>
+                <li><b>Repository name:</b> придумайте любое название латиницей (например, <span class="kbd-badge">my-ai-site</span>).</li>
+                <li><b>Public (Публичный):</b> обязательно оставьте галочку на <span class="kbd-badge">Public</span> (для бесплатного GitHub Pages репозиторий должен быть открытым).</li>
+                <li>Поставьте галочку <span class="kbd-badge">Add a README file</span> и нажмите зелёную кнопку <span class="kbd-badge">Create repository</span> внизу.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="inst-step-card">
+            <div class="inst-step-num">3</div>
+            <div class="inst-step-body">
+              <h3>Загрузите файл index.html</h3>
+              <p>На странице вашего нового репозитория нажмите кнопку <span class="kbd-badge">Add file</span> → <span class="kbd-badge">Upload files</span>:</p>
+              <ul>
+                <li>Перетащите ваш файл <span class="kbd-badge">index.html</span> в центральное окно браузера (название файла должно быть строго <code>index.html</code> маленькими буквами!).</li>
+                <li>Подождите пару секунд, пока файл загрузится в список.</li>
+                <li>Нажмите зелёную кнопку <span class="kbd-badge">Commit changes</span> внизу страницы.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="inst-step-card">
+            <div class="inst-step-num">4</div>
+            <div class="inst-step-body">
+              <h3>Включите хостинг GitHub Pages</h3>
+              <p>Теперь превратим репозиторий в работающий сайт:</p>
+              <ul>
+                <li>В верхнем меню репозитория откройте вкладку <span class="kbd-badge">Settings</span> (Настройки).</li>
+                <li>В левой колонке найдите раздел <span class="kbd-badge">Pages</span>.</li>
+                <li>В блоке <b>Build and deployment</b> (подпункт <b>Branch</b>) переключите кнопку с <span class="kbd-badge">None</span> на <span class="kbd-badge">main</span> (или <code>master</code>) и нажмите кнопку <span class="kbd-badge">Save</span>.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="inst-step-card">
+            <div class="inst-step-num">5</div>
+            <div class="inst-step-body">
+              <h3>Получите готовую ссылку на ваш сайт!</h3>
+              <p>Подождите 1–2 минуты и обновите страницу <span class="kbd-badge">Settings → Pages</span>. Сверху появится плашка <b>«Your site is live at...»</b> с вашей персональной ссылкой вида:</p>
+              <div class="code-snippet">
+                <span>https://ваш-логин.github.io/название-репозитория/</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2 style="font-size:16px; font-weight:700; margin-bottom:10px; color:#fff;">
+          🔑 Как получить бесплатный API-ключ Pollinations (для режима «С ключом»)
+        </h2>
+
+        <div class="inst-steps-list">
+          <div class="inst-step-card">
+            <div class="inst-step-num">★</div>
+            <div class="inst-step-body">
+              <h3>Быстрая авторизация на enter.pollinations.ai</h3>
+              <ul>
+                <li>Нажмите ссылку <b>«Получить ключ»</b> в верхней панели генератора (или перейдите на <code>enter.pollinations.ai</code>).</li>
+                <li>Войдите через свой аккаунт GitHub в 1 клик.</li>
+                <li>Скопируйте сгенерированный токен (API Key), переключите на сайте кнопку в режим <span class="kbd-badge">С ключом (Быстро ⚡)</span> и вставьте ключ в поле.</li>
+                <li>Ключ автоматически сохранится в вашем браузере (<code>localStorage</code>) — вводить его заново при следующем входе не нужно!</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Частые вопросы (FAQ) -->
+        <h2 style="font-size:15px; font-weight:700; margin-bottom:8px; color:#fff;">💡 Частые вопросы и полезные советы</h2>
+        <div class="inst-faq-grid">
+          <div class="inst-faq-item">
+            <h4>Почему на GitHub ошибка 404 после включения Pages?</h4>
+            <p>Проверьте, что файл называется строго <code>index.html</code> (с маленькой буквы), и подождите 1–2 минуты, пока сервер GitHub соберёт страницу.</p>
+          </div>
+          <div class="inst-faq-item">
+            <h4>Как обновить сайт, если я изменил код?</h4>
+            <p>Зайдите в репозиторий на GitHub, нажмите на файл <code>index.html</code> → значок карандаша (Edit), вставьте новый код и нажмите <b>Commit changes</b>.</p>
+          </div>
+          <div class="inst-faq-item">
+            <h4>Зачем нужен режим «Без ключа (15с)»?</h4>
+            <p>Он позволяет пользоваться текстовым генератором вообще без регистрации, но сервер Pollinations требует паузу 15 секунд между бесплатными анонимными запросами.</p>
+          </div>
+        </div>
+
+        <div style="margin-top: 18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <button type="button" class="btn-primary" id="btn-back-to-gen">← Перейти к генератору комментариев</button>
+          <a href="https://telegra.ph/Kak-sdelat-svoj-sajt-i-vylozhit-na-GitHub-10-15" target="_blank" rel="noopener noreferrer" style="font-size:12px; color:var(--text-muted); text-decoration:underline;">
+            Версия инструкции со скриншотами в Telegra.ph ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- БОКОВОЕ МЕНЮ СПРАВА -->
   <aside class="sidebar-right">
+    <!-- Навигация по разделам (Комментарии / Пароли / Инструкции) -->
     <div class="card">
       <div class="nav-menu">
         <button type="button" class="nav-btn active" id="nav-to-comments">💬 Генератор комментариев</button>
         <button type="button" class="nav-btn" id="nav-to-passwords">🔐 Генератор паролей</button>
+        <button type="button" class="nav-btn" id="nav-to-instructions">📖 Инструкции</button>
       </div>
     </div>
 
+    <!-- Отдельный блок справа, открывающий красивые встроенные инструкции на сайте -->
+    <div class="guide-side-box">
+      <div class="guide-side-title">📘 Инструкция по GitHub</div>
+      <div class="guide-side-desc">Пошаговый гайд прямо на сайте: как выложить свой index.html на GitHub Pages и ускорить генерацию.</div>
+      <button type="button" class="guide-side-btn" id="btn-side-open-guide">
+        📖 Открыть инструкцию на сайте
+      </button>
+    </div>
+
+    <!-- Онлайн-счётчик вкладок -->
     <div class="card online-box">
       <span>Активных вкладок:</span>
       <div class="online-indicator">
@@ -770,12 +1159,13 @@
       </div>
     </div>
 
-    <a href="https://t.me/guiiderr" target="_blank" rel="noopener" class="tg-promo">
+    <!-- Телеграм канал проекта -->
+    <a href="https://t.me/pytayus_zarabotat" target="_blank" rel="noopener noreferrer" class="tg-promo">
       <div class="tg-promo-title">
         <span>Телеграм канал проекта</span>
         <span class="sparkle">✨</span>
       </div>
-      <div class="tg-promo-sub">Обновления, гайды и полезные инструменты — t.me/guiiderr</div>
+      <div class="tg-promo-sub">Обновления, гайды и полезные инструменты — t.me/pytayus_zarabotat</div>
     </a>
   </aside>
 </div>
@@ -785,14 +1175,14 @@
      ПУЛ РАКУРСОВ ДЛЯ УНИКАЛЬНОСТИ КОММЕНТАРИЕВ (ANGLES)
      ========================================================================= */
   const ANGLES = [
-    "выдели главную пользу из поста",
-    "поделись кратким личным мнением или согласием",
-    "задай интересный вопрос по теме",
-    "отметь важную деталь из текста",
-    "напиши живой человеческий отклик без шаблонов",
+    "выдели главную пользу",
+    "поделись личным мнением",
+    "задай вопрос по теме",
+    "отметь важную деталь",
+    "живой отклик без шаблонов",
     "оцени актуальность темы",
-    "сделай акцент на главном выводе",
-    "посмотри на тему под свежим углом"
+    "акцент на главном выводе",
+    "свежий взгляд на тему"
   ];
 
   function safeGetStorage(key, fallback) {
@@ -817,7 +1207,7 @@
   };
 
   /* =========================================================================
-     ЛОГИРОВАНИЕ В РЕАЛЬНОМ ВРЕМЕНИ
+     ЛОГИРОВАНИЕ В РЕАЛЬНОМ ВРЕМЕНИ (СТРОГО В #gen-log-box)
      ========================================================================= */
   const logBox = document.getElementById('gen-log-box');
 
@@ -853,7 +1243,7 @@
   });
 
   /* =========================================================================
-     УДАЛЕНИЕ ССЫЛОК ИЗ ПОСТА И КОММЕНТАРИЕВ
+     УДАЛЕНИЕ ССЫЛОК И ФИЛЬТРАЦИЯ ТЕХНИЧЕСКОГО МУСОРА / ЛОГОВ ИЗ КОММЕНТАРИЕВ
      ========================================================================= */
   function extractLinks(text) {
     const urlRegex = /(?:https?:\/\/|www\.|t\.me\/|[a-zA-Z0-9-]+\.(?:ru|com|org|net|io|me|ai|рф)\b)[^\s<>"')\]]*/gi;
@@ -865,13 +1255,45 @@
     return { cleanedText: cleanedText, links: links };
   }
 
-  function cleanCommentFromLinks(commentText) {
-    return commentText
+  // Проверяет, не является ли строка техническим логом, куском JSON или мета-текстом ИИ
+  function isGarbageOrLogLine(str) {
+    if (!str) return true;
+    const s = str.trim();
+    if (s.length < 4) return true;
+
+    // 1. Отсекаем любые JSON-объекты, SSE-данные и технические поля API
+    if (/^[\{\[\]\}]/.test(s) || /[\{\}\[\]]$/.test(s)) return true;
+    if (/^data:\s*/i.test(s) || s === '[DONE]') return true;
+    if (/"(?:id|object|created|model|choices|delta|message|role|content|finish_reason|usage|prompt_tokens|seed|temperature)"\s*:/i.test(s)) return true;
+
+    // 2. Отсекаем строки с таймштампами логов [12:34:56] или системными тегами
+    if (/^\[\d{1,2}:\d{2}(?::\d{2})?\]/.test(s)) return true;
+    if (/^\[(?:Система|System|Log|Info|Error|Warn)\]/i.test(s)) return true;
+    if (/^(?:⏳|⚡|🚀|🔄|📡|📦|🚫|❌|🎉|📋|💾)\s*(?:Генерация|Ожидание|Запрос|Параметры|Слот|Догенерация|Старт|Турбо)/i.test(s)) return true;
+
+    // 3. Отсекаем эхо системного промта и вводные фразы нейросети
+    if (/^(?:вот\s+\d+|конечно[,!]|список\s+комментариев|комментарии\s+к\s+посту|правила:|углы:|ракурсы:|формат:|требования:|примечание:|выдай\s+ровно)/i.test(s)) return true;
+    if (/^(?:комментарий|вариант)\s*#?\d+\s*[:\-]?$/i.test(s)) return true;
+    if (/^[|\-=_*#~]{2,}$/.test(s)) return true;
+
+    return false;
+  }
+
+  // Очищает текст комментария от ссылок, префиксов ("Комментарий 1:"), кавычек и мусора
+  function sanitizeCommentText(rawText) {
+    if (!rawText) return '';
+    let s = String(rawText)
       .replace(/\{LINK\}/gi, '')
+      .replace(/\|\|\|/g, '')
       .replace(/(?:https?:\/\/|www\.|t\.me\/|[a-zA-Z0-9-]+\.(?:ru|com|org|net|io|me|ai|рф)\b)[^\s<>"')\]]*/gi, '')
+      .replace(/^\s*(?:комментарий\s*#?\d+\s*[:\.\)\-]\s*|\d+\s*[\.\)\-:]\s*|[\-\*•]\s*)/i, '')
+      .replace(/^["«„](.*)["»“]$/, '$1')
       .replace(/\(\s*\)/g, '')
       .replace(/\s{2,}/g, ' ')
       .trim();
+
+    if (isGarbageOrLogLine(s)) return '';
+    return s;
   }
 
   function linkify(safeText) {
@@ -952,13 +1374,13 @@
   document.getElementById('btn-auth-nokey').addEventListener('click', function() {
     state.authMode = 'nokey';
     updateAuthUI();
-    addLog('Режим: Без ключа (лимит 1 запрос в 15 сек).', 'info');
+    addLog('Режим: Без ключа (1 запрос в 15 сек).', 'info');
   });
 
   document.getElementById('btn-auth-key').addEventListener('click', function() {
     state.authMode = 'key';
     updateAuthUI();
-    addLog('Режим: С ключом (без задержки 15 сек + поддержка картинок).', 'info');
+    addLog('Режим: С ключом (Турбо-параллельная генерация + поддержка картинок).', 'info');
   });
 
   /* =========================================================================
@@ -1054,46 +1476,40 @@
   }
 
   /* =========================================================================
-     СБОРКА СИСТЕМНОГО ПРОМТА (БЕЗ ССЫЛОК + ТОЧНОЕ КОЛИЧЕСТВО)
+     УЛЬТРА-ЧИСТЫЙ СИСТЕМНЫЙ ПРОМТ
      ========================================================================= */
   function buildSystemPrompt(count, chosenAngles) {
     const sentMode = elSentMode.value;
     let sentRule = '2 предложения';
-    if (sentMode === 'random') {
-      sentRule = 'от 1 до 3 предложений';
-    } else if (sentMode === 'custom') {
-      const c = Math.min(10, Math.max(1, parseInt(elCustomSentCount.value, 10) || 2));
-      sentRule = 'ровно ' + c + ' предл.';
-    } else {
-      sentRule = 'ровно ' + sentMode + ' предл.';
-    }
+    if (sentMode === 'random') sentRule = 'от 1 до 3 предложений';
+    else if (sentMode === 'custom') sentRule = (Math.min(10, Math.max(1, parseInt(elCustomSentCount.value, 10) || 2))) + ' предл.';
+    else sentRule = sentMode + ' предл.';
 
     const authorMode = elAuthorName.value;
-    let nameRule = 'без имени автора';
-    if (authorMode === 'ru') nameRule = 'в начале русское имя с двоеточием (Иван: текст)';
-    if (authorMode === 'en') nameRule = 'в начале английский ник с двоеточием (alex99: текст)';
+    let nameRule = 'без имён в начале';
+    if (authorMode === 'ru') nameRule = 'в начале русское имя и двоеточие (например, Анна: текст)';
+    if (authorMode === 'en') nameRule = 'в начале англ. ник и двоеточие (например, user_01: текст)';
 
     const gender = elAuthorGender.value;
-    let genderRule = 'род любой (чередуй мужской и женский)';
+    let genderRule = 'чередуй мужской и женский род';
     if (gender === 'male') genderRule = 'строго мужской род';
     if (gender === 'female') genderRule = 'строго женский род';
 
-    const emojiRule = elChkEmoji.checked ? 'добавь 1-2 смайлика' : 'БЕЗ смайликов';
-    const toneRule = elChkPositive.checked ? 'строго позитивный тон' : 'естественный живой тон';
+    const emojiRule = elChkEmoji.checked ? '1-2 смайлика' : 'строго без смайликов';
+    const toneRule = elChkPositive.checked ? 'позитивный тон' : 'естественный разговорный тон';
     const customStyle = elCustomStyle.value.trim();
 
     return [
-      'Сгенерируй СТРОГО РОВНО ' + count + ' отдельных живых комментариев к посту на русском языке (обязательно выдай ровно ' + count + ' штук!).',
-      'ФОРМАТ: Пиши каждый комментарий в одну строку и разделяй их строкой ||| (три вертикальные черты). Не пиши нумерацию, не пиши вступлений и выводов.',
-      'СТРОГИЙ ЗАПРЕТ НА ССЫЛКИ: Не добавляй никакие ссылки, URL, домены или адреса сайтов в комментарии.',
-      'Параметры каждого комментария: ' + sentRule + '; ' + nameRule + '; ' + genderRule + '; ' + emojiRule + '; ' + toneRule + '.',
-      customStyle ? ('Стиль: ' + customStyle + '.') : '',
-      'Ракурсы: ' + chosenAngles.join(', ') + '.'
-    ].filter(Boolean).join('\n');
+      'Ты пишешь живые комментарии для соцсетей на русском языке.',
+      'Задача: напиши РОВНО ' + count + ' разных комментариев к посту пользователя.',
+      'СТРОГИЙ ФОРМАТ ВЫВОДА: Выводи ТОЛЬКО сами комментарии, разделяя их символами ||| (три вертикальные черты). Запрещено писать вводные фразы ("Вот комментарии:"), нумерацию, ссылки и любые пояснения.',
+      'Требования к каждому комментарию: ' + sentRule + ', ' + nameRule + ', ' + genderRule + ', ' + emojiRule + ', ' + toneRule + (customStyle ? (', стиль: ' + customStyle) : '') + '.',
+      'Смысловые акценты: ' + chosenAngles.join(', ') + '.'
+    ].join('\n');
   }
 
   /* =========================================================================
-     ПРОВЕРКА ЛИМИТА 15 СЕКУНД (ДЛЯ РЕЖИМА БЕЗ КЛЮЧА)
+     ПРОВЕРКА ЛИМИТА 15 СЕКУНД (ТОЛЬКО ДЛЯ РЕЖИМА БЕЗ КЛЮЧА)
      ========================================================================= */
   async function waitRateLimitIfNeeded() {
     if (state.authMode !== 'nokey') return;
@@ -1101,7 +1517,7 @@
     const cooldown = 15000;
     if (state.lastRequestTime > 0 && elapsed < cooldown) {
       let remainSec = Math.ceil((cooldown - elapsed) / 1000);
-      addLog('⏳ Лимит режима «Без ключа»: ждём ' + remainSec + ' сек перед следующим запросом...', 'warn');
+      addLog('⏳ Лимит «Без ключа»: ждём ' + remainSec + ' сек... (с ключом ожидания нет)', 'warn');
       while (remainSec > 0) {
         setStatus('Ожидание лимита API (Без ключа): ' + remainSec + ' сек...', 'loading');
         await new Promise(function(r) { setTimeout(r, 1000); });
@@ -1111,7 +1527,71 @@
   }
 
   /* =========================================================================
-     БЫСТРЫЙ ЗАПРОС К POLLINATIONS (STREAM + FALLBACK)
+     БЕЗОПАСНОЕ ИЗВЛЕЧЕНИЕ ТОЛЬКО ТЕКСТА КОММЕНТАРИЕВ ИЗ ОТВЕТА POLLINATIONS
+     ========================================================================= */
+  function extractContentFromRawResponse(rawText) {
+    if (!rawText) return '';
+    const trimmed = rawText.trim();
+
+    if (trimmed.includes('data:') && trimmed.includes('"choices"')) {
+      let combined = '';
+      const lines = trimmed.split('\n');
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line.startsWith('data:')) continue;
+        const payload = line.replace(/^data:\s*/, '').trim();
+        if (payload === '[DONE]') continue;
+        try {
+          const parsed = JSON.parse(payload);
+          const delta = parsed?.choices?.[0]?.delta?.content ?? parsed?.choices?.[0]?.message?.content ?? '';
+          if (typeof delta === 'string') combined += delta;
+        } catch (e) {}
+      }
+      return combined;
+    }
+
+    if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+      try {
+        const json = JSON.parse(trimmed);
+        if (json?.error) {
+          throw new Error(json.error.message || JSON.stringify(json.error));
+        }
+        const msgContent = json?.choices?.[0]?.message?.content ?? json?.content ?? '';
+        if (typeof msgContent === 'string') return msgContent;
+        return '';
+      } catch (e) {
+        if (e.message && !e.message.includes('JSON')) throw e;
+        return '';
+      }
+    }
+
+    if (/^<!DOCTYPE html>|^<html/i.test(trimmed)) {
+      throw new Error('Сервер Pollinations временно перегружен (HTML response)');
+    }
+
+    return trimmed;
+  }
+
+  function splitRawComments(rawContent) {
+    if (!rawContent) return [];
+    const normalized = rawContent
+      .replace(/\s*\|\|\|\s*/g, '\n')
+      .replace(/\n*---\n*/g, '\n');
+
+    const lines = normalized.split(/\r?\n+/);
+    const cleanList = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const cleaned = sanitizeCommentText(lines[i]);
+      if (cleaned) {
+        cleanList.push(cleaned);
+      }
+    }
+    return cleanList;
+  }
+
+  /* =========================================================================
+     ТУРБО-ЗАПРОС К POLLINATIONS (БЕЗ ПРОТЕЧЕК СЫРЫХ ЛОГОВ В КОММЕНТАРИИ)
      ========================================================================= */
   async function fetchPollinationsFast(systemPrompt, userText, onCommentReady) {
     const seed = Math.floor(Math.random() * 899999) + 100000;
@@ -1122,7 +1602,7 @@
       ? 'https://gen.pollinations.ai/v1/chat/completions'
       : 'https://text.pollinations.ai/openai';
 
-    addLog('⚡ Запрос к ИИ: seed=' + seed + ', temp=' + temperature, 'info');
+    const fastUserText = (userText || 'Обсуди тему').slice(0, 1200);
 
     const headers = { 'Content-Type': 'application/json' };
     if (state.authMode === 'key' && state.apiKey) {
@@ -1131,7 +1611,7 @@
 
     let messages = [];
     if (isVision) {
-      const contentArr = [{ type: 'text', text: userText || 'Прокомментируй фото' }];
+      const contentArr = [{ type: 'text', text: fastUserText }];
       state.imagesBase64.forEach(function(b64) {
         contentArr.push({ type: 'image_url', image_url: { url: b64 } });
       });
@@ -1142,7 +1622,7 @@
     } else {
       messages = [
         { role: 'system', content: systemPrompt },
-        { role: 'user', content: userText }
+        { role: 'user', content: fastUserText }
       ];
     }
 
@@ -1150,7 +1630,7 @@
 
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(function() { controller.abort(); }, 45000);
+      const timeoutId = setTimeout(function() { controller.abort(); }, 30000);
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -1160,7 +1640,6 @@
           messages: messages,
           seed: seed,
           temperature: temperature,
-          max_tokens: 4096,
           stream: !isVision
         }),
         signal: controller.signal
@@ -1170,7 +1649,7 @@
 
       if (!response.ok) {
         const errBody = await response.text();
-        throw new Error('HTTP ' + response.status + ' (' + errBody.slice(0, 80) + ')');
+        throw new Error('HTTP ' + response.status + ' (' + errBody.slice(0, 60) + ')');
       }
 
       const contentType = response.headers.get('content-type') || '';
@@ -1193,12 +1672,12 @@
           for (let i = 0; i < lines.length; i++) {
             const line = lines[i].trim();
             if (!line.startsWith('data:')) continue;
-            const dataStr = line.replace(/^data:\s*/, '');
+            const dataStr = line.replace(/^data:\s*/, '').trim();
             if (dataStr === '[DONE]') continue;
             try {
               const parsed = JSON.parse(dataStr);
-              const delta = parsed?.choices?.[0]?.delta?.content || '';
-              if (delta) {
+              const delta = parsed?.choices?.[0]?.delta?.content;
+              if (typeof delta === 'string' && delta.length > 0) {
                 fullText += delta;
                 const parts = splitRawComments(fullText);
                 while (parts.length > emittedCount + 1) {
@@ -1219,21 +1698,13 @@
       }
 
       const rawText = await response.text();
-      let extracted = rawText;
-      try {
-        const json = JSON.parse(rawText);
-        extracted = json?.choices?.[0]?.message?.content || rawText;
-      } catch (e) {
-        extracted = rawText;
-      }
-
-      const list = splitRawComments(extracted);
+      const pureContent = extractContentFromRawResponse(rawText);
+      const list = splitRawComments(pureContent);
       list.forEach(function(item) { onCommentReady(item); });
       return list;
 
     } catch (primaryErr) {
       if (!isVision) {
-        addLog('⚠️ Переключение на резервный канал Pollinations...', 'warn');
         const fallbackResp = await fetch('https://text.pollinations.ai/openai', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -1242,18 +1713,13 @@
             messages: messages,
             seed: seed,
             temperature: temperature,
-            max_tokens: 4096,
             stream: false
           })
         });
         if (!fallbackResp.ok) throw primaryErr;
         const raw = await fallbackResp.text();
-        let content = raw;
-        try {
-          const j = JSON.parse(raw);
-          content = j?.choices?.[0]?.message?.content || raw;
-        } catch (e) {}
-        const list = splitRawComments(content);
+        const pureContent = extractContentFromRawResponse(raw);
+        const list = splitRawComments(pureContent);
         list.forEach(function(item) { onCommentReady(item); });
         return list;
       }
@@ -1261,32 +1727,15 @@
     }
   }
 
-  // Надёжное разделение ответа ИИ на отдельные комментарии (даже если ИИ смешал ||| и переносы строк)
-  function splitRawComments(raw) {
-    if (!raw) return [];
-    const normalized = raw
-      .replace(/\s*\|\|\|\s*/g, '\n')
-      .replace(/\n*---\n*/g, '\n');
-
-    return normalized
-      .split(/\r?\n+/)
-      .map(function(s) {
-        return s.replace(/^\s*(?:\d+[\.\)\-]|[\-\*•])\s*/, '').trim();
-      })
-      .filter(function(s) {
-        return s.length > 3 && !/^(вот|конечно|список|комментарии)/i.test(s);
-      });
-  }
-
   /* =========================================================================
-     ГАРАНТИРОВАННАЯ ГЕНЕРАЦИЯ РОВНО N КОММЕНТАРИЕВ (ВКЛЮЧАЯ 50 ИЗ 50)
+     ТУРБО-ГЕНЕРАЦИЯ N КОММЕНТАРИЕВ (ПАРАЛЛЕЛЬНЫЕ ПОТОКИ + ДОБОР ДО 50 ШТ.)
      ========================================================================= */
   const btnGenerate = document.getElementById('btn-generate');
   btnGenerate.addEventListener('click', generateBatchComments);
 
   async function generateBatchComments() {
     if (state.isGenerating) {
-      addLog('⏳ Генерация уже выполняется, подождите...', 'warn');
+      addLog('⏳ Генерация уже идёт...', 'warn');
       return;
     }
 
@@ -1315,39 +1764,73 @@
     const startTime = Date.now();
 
     try {
-      addLog('🚀 Старт генерации: запрошено ровно ' + targetCount + ' комментариев.', 'info');
+      addLog('🚀 Турбо-старт: запрошено ' + targetCount + ' коммент.', 'info');
 
-      // 1. Вырезаем все ссылки из поста, чтобы они НЕ попадали в комментарии
       const extracted = extractLinks(rawPost);
       const cleanedText = extracted.cleanedText || 'Обсуди тему поста';
       if (extracted.links.length > 0) {
-        addLog('🚫 Ссылки из поста (' + extracted.links.length + ' шт.) вырезаны и не будут добавлены в комментарии.', 'info');
+        addLog('🚫 Вырезано ссылок из поста: ' + extracted.links.length + ' шт. (в комментарии не попадут).', 'info');
       }
 
-      // 2. Создаём карточки-слоты под все запрошенные комментарии (например, все 50)
       state.comments = [];
       const container = document.getElementById('comments-container');
       container.innerHTML = '';
+      const frag = document.createDocumentFragment();
       for (let i = 0; i < targetCount; i++) {
-        createPendingSlotDOM(i);
+        frag.appendChild(buildPendingSlotNode(i));
       }
-      addLog('📦 Подготовлено слотов: ' + targetCount + ' шт.', 'step');
+      container.appendChild(frag);
 
-      // 3. Цикл гарантированного добора до targetCount (макс. по 20 штук за 1 запрос, чтобы ИИ никогда не обрезал на 27!)
       let currentIndex = 0;
+
+      function handleIncomingComment(rawCommText) {
+        if (currentIndex >= targetCount) return;
+        const finalComm = sanitizeCommentText(rawCommText);
+        if (!finalComm) return;
+
+        if (currentIndex > 0 && state.comments[currentIndex - 1] === finalComm) return;
+
+        const slotIdx = currentIndex;
+        state.comments[slotIdx] = finalComm;
+        currentIndex++;
+
+        fillSlotDOM(slotIdx, finalComm);
+        updateCommentsMeta();
+
+        const elapsedMs = Date.now() - startTime;
+        setStatus('⚡ Сгенерировано: ' + currentIndex + ' из ' + targetCount + '...', 'loading');
+        addLog('✅ #' + currentIndex + '/' + targetCount + ' (' + elapsedMs + ' мс): "' + finalComm.slice(0, 48) + '..."', 'ok');
+      }
+
+      if (state.authMode === 'key' && targetCount > 18) {
+        const chunks = [];
+        let left = targetCount;
+        while (left > 0) {
+          const size = Math.min(18, left);
+          chunks.push(size);
+          left -= size;
+        }
+        addLog('⚡ Параллельный Турбо-режим: запуск ' + chunks.length + ' потоков (' + chunks.join(' + ') + ' шт.)', 'info');
+        setStatus('⚡ Параллельная генерация в ' + chunks.length + ' потоках...', 'loading');
+
+        await Promise.all(chunks.map(function(chunkSize) {
+          const angles = ANGLES.slice().sort(function() { return 0.5 - Math.random(); }).slice(0, 3);
+          const sysPrompt = buildSystemPrompt(chunkSize, angles);
+          return fetchPollinationsFast(sysPrompt, cleanedText, handleIncomingComment);
+        }));
+      }
+
       let attempt = 0;
-      const maxAttempts = 8;
-      const MAX_PER_REQUEST = 20;
+      const maxAttempts = 6;
+      const MAX_PER_REQUEST = 25;
 
       while (currentIndex < targetCount && attempt < maxAttempts) {
         attempt++;
         const remaining = targetCount - currentIndex;
         const batchSize = Math.min(MAX_PER_REQUEST, remaining);
 
-        if (attempt > 1) {
-          addLog('🔄 Догенерация: набрано ' + currentIndex + ' из ' + targetCount + ', запрашиваем ещё ' + batchSize + ' шт. (проход #' + attempt + ')...', 'warn');
-        } else if (targetCount > MAX_PER_REQUEST) {
-          addLog('📦 Запрошено ' + targetCount + ' шт. — генерируем пачками по ' + MAX_PER_REQUEST + ' шт. для 100% точности.', 'info');
+        if (currentIndex > 0) {
+          addLog('🔄 Догенерация оставшихся ' + remaining + ' шт. до ' + targetCount + '...', 'warn');
         }
 
         await waitRateLimitIfNeeded();
@@ -1356,33 +1839,9 @@
         const sysPrompt = buildSystemPrompt(batchSize, shuffledAngles);
 
         setStatus('⚡ Генерируем комментарии (' + currentIndex + ' / ' + targetCount + ')...', 'loading');
-
-        let addedInThisBatch = 0;
-
-        await fetchPollinationsFast(sysPrompt, cleanedText, function(rawCommText) {
-          if (currentIndex >= targetCount) return;
-          const finalComm = cleanCommentFromLinks(rawCommText);
-          if (!finalComm) return;
-
-          const slotIdx = currentIndex;
-          state.comments[slotIdx] = finalComm;
-          currentIndex++;
-          addedInThisBatch++;
-
-          fillSlotDOM(slotIdx, finalComm);
-          updateCommentsMeta();
-
-          const elapsedMs = Date.now() - startTime;
-          setStatus('⚡ Сгенерирован комментарий #' + currentIndex + ' из ' + targetCount + '...', 'loading');
-          addLog('✅ Комментарий #' + currentIndex + '/' + targetCount + ' готов (' + elapsedMs + ' мс): "' + finalComm.slice(0, 50) + '..."', 'ok');
-        });
-
-        if (addedInThisBatch === 0) {
-          addLog('⚠️ Повторная попытка прохода...', 'warn');
-        }
+        await fetchPollinationsFast(sysPrompt, cleanedText, handleIncomingComment);
       }
 
-      // Очистка пустых слотов, если вдруг прервалось раньше
       for (let i = state.comments.length; i < targetCount; i++) {
         const leftover = document.getElementById('comm-card-' + i);
         if (leftover) leftover.remove();
@@ -1391,7 +1850,7 @@
       updateCommentsMeta();
       const totalSec = ((Date.now() - startTime) / 1000).toFixed(1);
       setStatus('✅ Готово! Сгенерировано ' + state.comments.length + ' из ' + targetCount + ' коммент. за ' + totalSec + ' сек.', 'success');
-      addLog('🎉 Все комментарии (' + state.comments.length + ' шт.) успешно сгенерированы за ' + totalSec + ' сек!', 'ok');
+      addLog('🎉 Все ' + state.comments.length + ' коммент. сгенерированы за ' + totalSec + ' сек!', 'ok');
 
     } catch (err) {
       setStatus('❌ Ошибка генерации: ' + err.message, 'error');
@@ -1399,35 +1858,34 @@
     } finally {
       state.isGenerating = false;
       btnGenerate.disabled = false;
-      btnGenerate.textContent = 'Сгенерировать новые';
+      btnGenerate.textContent = '⚡ Сгенерировать новые';
     }
   }
 
   /* =========================================================================
      СОЗДАНИЕ И ЗАПОЛНЕНИЕ КАРТОЧЕК КОММЕНТАРИЕВ
      ========================================================================= */
-  function createPendingSlotDOM(idx) {
-    const container = document.getElementById('comments-container');
+  function buildPendingSlotNode(idx) {
     const item = document.createElement('div');
     item.className = 'comment-item pending';
     item.id = 'comm-card-' + idx;
     item.innerHTML =
       '<div class="comment-top">' +
         '<span class="comment-num">#' + (idx + 1) + '</span>' +
-        '<div class="comment-text" id="comm-text-' + idx + '" style="color:var(--text-muted);">⏳ Ожидание генерации комментария #' + (idx + 1) + '...</div>' +
+        '<div class="comment-text" id="comm-text-' + idx + '" style="color:var(--text-muted);">⏳ Ожидание очереди...</div>' +
       '</div>' +
       '<div class="comment-actions">' +
         '<button type="button" class="btn-mini" data-regen="' + idx + '" disabled>🔄 Ещё вариант</button>' +
         '<button type="button" class="btn-mini" data-copy="' + idx + '" disabled>📋 Копировать</button>' +
       '</div>';
-    container.appendChild(item);
+    return item;
   }
 
   function fillSlotDOM(idx, finalComment) {
     let item = document.getElementById('comm-card-' + idx);
     if (!item) {
-      createPendingSlotDOM(idx);
-      item = document.getElementById('comm-card-' + idx);
+      item = buildPendingSlotNode(idx);
+      document.getElementById('comments-container').appendChild(item);
     }
     item.classList.remove('pending');
 
@@ -1460,7 +1918,7 @@
 
     state.isGenerating = true;
     const oldText = btnEl.textContent;
-    btnEl.textContent = '⏳ Генерируется...';
+    btnEl.textContent = '⏳ Обновление...';
     btnEl.disabled = true;
 
     try {
@@ -1471,8 +1929,12 @@
       const sysPrompt = buildSystemPrompt(1, angle);
 
       setStatus('⏳ Обновляем комментарий #' + (idx + 1) + '...', 'loading');
+      let updated = false;
       await fetchPollinationsFast(sysPrompt, extracted.cleanedText || 'Напиши 1 комментарий', function(oneComm) {
-        const finalComm = cleanCommentFromLinks(oneComm);
+        if (updated) return;
+        const finalComm = sanitizeCommentText(oneComm);
+        if (!finalComm) return;
+        updated = true;
         state.comments[idx] = finalComm;
         fillSlotDOM(idx, finalComm);
         setStatus('✅ Комментарий #' + (idx + 1) + ' обновлён!', 'success');
@@ -1619,27 +2081,34 @@
   });
 
   /* =========================================================================
-     НАВИГАЦИЯ И ОНЛАЙН-СЧЁТЧИК ВКЛАДОК
+     НАВИГАЦИЯ МЕЖДУ 3 РАЗДЕЛАМИ И ОНЛАЙН-СЧЁТЧИК ВКЛАДОК
      ========================================================================= */
   const navComm = document.getElementById('nav-to-comments');
   const navPass = document.getElementById('nav-to-passwords');
+  const navInst = document.getElementById('nav-to-instructions');
+  const btnSideGuide = document.getElementById('btn-side-open-guide');
+  const btnBackToGen = document.getElementById('btn-back-to-gen');
+
   const secComm = document.getElementById('sec-comments');
   const secPass = document.getElementById('sec-passwords');
+  const secInst = document.getElementById('sec-instructions');
 
-  navComm.addEventListener('click', function() {
-    navComm.classList.add('active');
-    navPass.classList.remove('active');
-    secComm.classList.remove('hidden');
-    secPass.classList.add('hidden');
-  });
+  function switchSection(activeBtn, activeSec) {
+    [navComm, navPass, navInst].forEach(function(b) { b.classList.remove('active'); });
+    [secComm, secPass, secInst].forEach(function(s) { s.classList.add('hidden'); });
+    activeBtn.classList.add('active');
+    activeSec.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
+  navComm.addEventListener('click', function() { switchSection(navComm, secComm); });
   navPass.addEventListener('click', function() {
-    navPass.classList.add('active');
-    navComm.classList.remove('active');
-    secPass.classList.remove('hidden');
-    secComm.classList.add('hidden');
+    switchSection(navPass, secPass);
     generatePassword();
   });
+  navInst.addEventListener('click', function() { switchSection(navInst, secInst); });
+  btnSideGuide.addEventListener('click', function() { switchSection(navInst, secInst); });
+  btnBackToGen.addEventListener('click', function() { switchSection(navComm, secComm); });
 
   (function initTabCounter() {
     try {
