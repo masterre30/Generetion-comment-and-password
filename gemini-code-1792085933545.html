@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Comment & Password Generator</title>
+  <style>
+    /* ==========================================
+       БАЗОВЫЕ ПЕРЕМЕННЫЕ И СБРОС СТИЛЕЙ
+       ========================================== */
+    :root {
+      --bg-main: #0a0c11;
+      --bg-card: #171a21;
+      --bg-input: #101319;
+      --border: #262b36;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent-start: #6366f1;
+      --accent-end: #a855f7;
+      --accent-grad: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      --danger: #ef4444;
+      --success: #22c55e;
+      --warning: #f59e0b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ==========================================
+       ОСНОВНОЙ МАКЕТ (КОНТЕНТ + МЕНЮ СПРАВА)
+       ========================================== */
+    .app-layout {
+      display: flex;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .main-content { flex: 1; min-width: 0; }
+
+    .sidebar-right {
+      width: 280px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .sidebar-right .card {
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    /* ==========================================
+       БОКОВОЕ МЕНЮ СПРАВА
+       ========================================== */
+    .nav-menu { display: flex; flex-direction: column; gap: 8px; }
+
+    .nav-btn {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 11px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--accent-start);
+    }
+
+    .nav-btn.active {
+      background: var(--accent-grad);
+      border-color: transparent;
+      color: #fff;
+    }
+
+    /* Блок инструкций справа */
+    .guide-side-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .guide-side-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guide-side-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .guide-side-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 2px;
+      padding: 8px 12px;
+      border-radius: 7px;
+      background: rgba(99, 102, 241, 0.16);
+      border: 1px solid var(--accent-start);
+      color: #fff;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      width: 100%;
+    }
+
+    .guide-side-btn:hover {
+      background: var(--accent-grad);
+      border-color: transparent;
+    }
+
+    .online-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .online-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .online-dot {
+      width: 9px;
+      height: 9px;
+      background-color: var(--success);
+      border-radius: 50%;
+      animation: blink-dot 2s infinite ease-in-out;
+    }
+
+    @keyframes blink-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .tg-promo {
+      text-decoration: none;
+      color: var(--text-main);
+      display: block;
+      background: linear-gradient(180deg, rgba(99,102,241,0.12), rgba(168,85,247,0.12));
+      border: 1px solid rgba(168,85,247,0.35);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .tg-promo-title {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sparkle {
+      display: inline-block;
+      animation: blink-sparkle 1.8s infinite ease-in-out;
+    }
+
+    @keyframes blink-sparkle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+
+    .tg-promo-sub { font-size: 12px; color: var(--text-muted); }
+
+    /* ==========================================
+       АВТОРИЗАЦИЯ И ВЕРХНИЕ ВКЛАДКИ РАЗНОЙ ФОРМЫ
+       ========================================== */
+    .auth-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .auth-modes { display: flex; gap: 6px; }
+
+    .mode-pill {
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .mode-pill.active {
+      border-color: var(--accent-start);
+      color: #fff;
+      background: rgba(99, 102, 241, 0.18);
+    }
+
+    .api-key-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .api-key-input {
+      flex: 1;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    .saved-badge {
+      font-size: 11px;
+      color: var(--success);
+      display: none;
+      white-space: nowrap;
+    }
+    .saved-badge.show { display: inline-block; }
+
+    .api-link { font-size: 11px; color: var(--accent-start); text-decoration: none; }
+
+    /* Верхние вкладки РАЗНОЙ формы */
+    .top-tabs { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+
+    .tab-pill-round {
+      border-radius: 999px;
+      padding: 8px 20px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab-pill-round.active {
+      background: var(--accent-grad);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .tab-rect-stripe {
+      border-radius: 4px;
+      padding: 8px 18px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--text-muted);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab-rect-stripe.active {
+      border-color: var(--border);
+      border-left: 4px solid var(--accent-end);
+      background: rgba(168, 85, 247, 0.14);
+      color: #fff;
+    }
+
+    /* ==========================================
+       ПОЛЯ ВВОДА И ЗАГРУЗКА КАРТИНОК
+       ========================================== */
+    .form-group { margin-bottom: 12px; }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    textarea, input[type="text"], input[type="number"], select {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+    }
+    textarea:focus, input:focus, select:focus { border-color: var(--accent-start); }
+    textarea { resize: vertical; min-height: 84px; }
+
+    .vision-upload-zone {
+      border: 2px dashed var(--border);
+      background: var(--bg-input);
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 12px;
+      display: none;
+    }
+    .vision-upload-zone.active { display: block; }
+    .vision-upload-zone.dragover {
+      border-color: var(--accent-start);
+      background: rgba(99, 102, 241, 0.08);
+    }
+
+    .preview-list { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+
+    .preview-item {
+      position: relative;
+      width: 68px;
+      height: 68px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .preview-item img { width: 100%; height: 100%; object-fit: cover; }
+
+    .preview-remove {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 11px;
+      cursor: pointer;
+      line-height: 18px;
+      text-align: center;
+    }
+
+    /* ==========================================
+       КОМПАКТНЫЕ ПОЛЯ И 3 МЕНЮШКИ РАЗНОЙ ФОРМЫ
+       ========================================== */
+    .controls-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .compact-num-wrap { width: 135px; }
+    .compact-num-wrap input { padding: 7px 10px; text-align: center; }
+    .menu-wrap { flex: 1; min-width: 145px; }
+
+    .select-rect {
+      border-radius: 2px !important;
+      border: 1px solid #3b4254 !important;
+      padding: 7px 10px;
+    }
+    .select-round {
+      border-radius: 999px !important;
+      padding: 7px 14px;
+      border: 1px solid #4f46e5 !important;
+    }
+    .select-top-rounded {
+      border-radius: 14px 14px 0 0 !important;
+      border-bottom: 2px solid var(--accent-end) !important;
+      padding: 7px 10px;
+    }
+
+    .checkboxes-row {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .tiny-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+    .tiny-check input { cursor: pointer; accent-color: var(--accent-start); }
+
+    /* ==========================================
+       КНОПКИ ДЕЙСТВИЙ И СТАТУС
+       ========================================== */
+    .actions-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+
+    .btn-primary {
+      background: var(--accent-grad);
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 13px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary:active { transform: translateY(1px); }
+    .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .btn-secondary {
+      background: var(--bg-input);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn-secondary:hover { border-color: var(--accent-start); }
+
+    .status-line {
+      font-size: 12px;
+      min-height: 20px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .status-line.loading { color: var(--warning); }
+    .status-line.error { color: var(--danger); }
+    .status-line.success { color: var(--success); }
+
+    /* ==========================================
+       БЛОК ЖИВЫХ ЛОГОВ ГЕНЕРАЦИИ
+       ========================================== */
+    .log-panel {
+      background: #0d1017;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 12px;
+      background: #131722;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .log-clear-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .log-body {
+      max-height: 165px;
+      overflow-y: auto;
+      padding: 8px 12px;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 11.5px;
+      line-height: 1.45;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .log-entry { color: #cbd5e1; word-break: break-word; }
+    .log-entry .log-time { color: #64748b; margin-right: 6px; }
+    .log-entry.info { color: #93c5fd; }
+    .log-entry.step { color: #e2e8f0; }
+    .log-entry.ok { color: #4ade80; }
+    .log-entry.warn { color: #fbbf24; }
+    .log-entry.err { color: #f87171; }
+
+    /* ==========================================
+       СПИСОК КОММЕНТАРИЕВ
+       ========================================== */
+    .comments-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .comment-item {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .comment-item.pending { border-style: dashed; opacity: 0.7; }
+
+    .comment-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .comment-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(99, 102, 241, 0.25);
+      border: 1px solid var(--accent-start);
+      padding: 2px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .comment-text {
+      flex: 1;
+      font-size: 13.5px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .comment-text a { color: #818cf8; text-decoration: underline; }
+
+    .comment-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+    .btn-mini {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 5px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .btn-mini:hover { color: #fff; border-color: var(--accent-start); }
+
+    /* ==========================================
+       ГЕНЕРАТОР ПАРОЛЕЙ
+       ========================================== */
+    .pw-display-box { display: flex; gap: 8px; margin-bottom: 12px; }
+
+    .pw-output {
+      flex: 1;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      padding: 12px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 16px;
+      color: #fff;
+      word-break: break-all;
+    }
+
+    .strength-bars {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .strength-bar { height: 6px; border-radius: 3px; background: var(--border); }
+
+    .pw-checks {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    /* ==========================================
+       КРАСИВЫЙ РАЗДЕЛ ИНСТРУКЦИЙ НА САЙТЕ
+       ========================================== */
+    .inst-hero {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.14), rgba(168, 85, 247, 0.14));
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .inst-hero-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .inst-hero-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .inst-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .inst-feature-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .inst-feature-icon {
+      font-size: 20px;
+      margin-bottom: 6px;
+      display: inline-block;
+    }
+
+    .inst-feature-card h4 {
+      font-size: 13.5px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .inst-feature-card p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .inst-steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .inst-step-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .inst-step-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: var(--accent-grad);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .inst-step-body {
+      flex: 1;
+    }
+
+    .inst-step-body h3 {
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    .inst-step-body p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .inst-step-body ul {
+      padding-left: 18px;
+      color: var(--text-muted);
+      font-size: 12.5px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .kbd-badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.16);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #c7d2fe;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 11.5px;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .code-snippet {
+      background: #0d1017;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 12px;
+      color: #a5b4fc;
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+    }
+
+    .inst-faq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .inst-faq-item {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent-start);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .inst-faq-item h4 {
+      font-size: 13px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .inst-faq-item p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 860px) {
+      .app-layout { flex-direction: column-reverse; }
+      .sidebar-right { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-layout">
+  <main class="main-content">
+
+    <!-- ==========================================
+         РАЗДЕЛ 1: ГЕНЕРАТОР КОММЕНТАРИЕВ
+         ========================================== -->
+    <section id="sec-comments">
+      <div class="card">
+        <h1 class="section-title">Генератор комментариев AI (Turbo)</h1>
+
+        <!-- Авторизация -->
+        <div class="auth-bar">
+          <div class="auth-modes">
+            <button type="button" class="mode-pill active" id="btn-auth-nokey">Без ключа (15с)</button>
+            <button type="button" class="mode-pill" id="btn-auth-key">С ключом (Быстро ⚡)</button>
+          </div>
+
+          <div class="api-key-wrap" id="api-key-container">
+            <input type="password" id="api-key-input" class="api-key-input" placeholder="API-ключ Pollinations...">
+            <span id="key-saved-badge" class="saved-badge">✓ Сохранён</span>
+            <a href="https://enter.pollinations.ai" target="_blank" rel="noopener" class="api-link">Получить ключ</a>
+          </div>
+        </div>
+
+        <!-- Верхние вкладки РАЗНОЙ формы -->
+        <div class="top-tabs">
+          <button type="button" class="tab-pill-round active" id="tab-mode-text">
+            <span>📝</span> Текст
+          </button>
+          <button type="button" class="tab-rect-stripe" id="tab-mode-vision">
+            <span>🖼️</span> Изображение
+          </button>
+        </div>
+
+        <!-- Загрузка картинок -->
+        <div class="vision-upload-zone" id="vision-dropzone">
+          <div>Перетащите до 5 изображений сюда или <b>кликните для выбора</b></div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Поддерживаются JPG, PNG, WEBP (требуется режим «С ключом»)</div>
+          <input type="file" id="vision-file-input" accept="image/*" multiple class="hidden">
+          <div class="preview-list" id="vision-previews"></div>
+        </div>
+
+        <!-- Поле текста поста -->
+        <div class="form-group">
+          <label class="form-label" for="post-text">Текст поста или тема (ссылки из текста автоматически вырезаются и не попадают в комментарии):</label>
+          <textarea id="post-text" placeholder="Вставьте текст поста, новость или тему для комментирования..."></textarea>
+        </div>
+
+        <!-- Поле своего стиля -->
+        <div class="form-group">
+          <label class="form-label" for="custom-style">Свой стиль комментария (необязательно):</label>
+          <input type="text" id="custom-style" placeholder="Например: с лёгким юмором, от лица программиста, разговорный сленг...">
+        </div>
+
+        <!-- Компактные поля и 3 менюшки разной формы -->
+        <div class="controls-grid">
+          <div class="compact-num-wrap">
+            <label class="form-label" for="comm-count">Кол-во комментов (1-50)</label>
+            <input type="number" id="comm-count" min="1" max="50" value="5">
+          </div>
+
+          <div class="menu-wrap">
+            <label class="form-label" for="sent-mode">Предложений (прямоуг.)</label>
+            <select id="sent-mode" class="select-rect">
+              <option value="1">1 предложение</option>
+              <option value="2" selected>2 предложения</option>
+              <option value="3">3 предложения</option>
+              <option value="random">Случайно (1–3)</option>
+              <option value="custom">Своё кол-во</option>
+            </select>
+          </div>
+
+          <div class="compact-num-wrap" id="custom-sent-wrap" style="display:none;">
+            <label class="form-label" for="custom-sent-count">Своё кол-во (1-10)</label>
+            <input type="number" id="custom-sent-count" min="1" max="10" value="4">
+          </div>
+
+          <div class="menu-wrap">
+            <label class="form-label" for="author-name">Имя автора (круглая)</label>
+            <select id="author-name" class="select-round">
+              <option value="none">Без имени</option>
+              <option value="ru">Русские имена</option>
+              <option value="en">Английские никнеймы</option>
+            </select>
+          </div>
+
+          <div class="menu-wrap">
+            <label class="form-label" for="author-gender">Пол (скругл. сверху)</label>
+            <select id="author-gender" class="select-top-rounded">
+              <option value="any">Любой (случайно)</option>
+              <option value="male">Мужской род</option>
+              <option value="female">Женский род</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Галочки (11px) -->
+        <div class="checkboxes-row">
+          <label class="tiny-check">
+            <input type="checkbox" id="chk-emoji" checked>
+            Со смайликами
+          </label>
+          <label class="tiny-check">
+            <input type="checkbox" id="chk-positive">
+            Строго позитивный тон
+          </label>
+        </div>
+
+        <!-- Кнопки -->
+        <div class="actions-row">
+          <button type="button" class="btn-primary" id="btn-generate">⚡ Сгенерировать новые</button>
+          <button type="button" class="btn-secondary" id="btn-clear">Очистить</button>
+          <button type="button" class="btn-secondary hidden" id="btn-copy-all">📋 Скопировать все</button>
+          <button type="button" class="btn-secondary hidden" id="btn-download-txt">💾 Скачать в TXT</button>
+        </div>
+
+        <!-- Статус -->
+        <div id="status-box" class="status-line"></div>
+
+        <!-- ЖИВЫЕ ЛОГИ ГЕНЕРАЦИИ -->
+        <div class="log-panel">
+          <div class="log-header">
+            <span>📋 Журнал генерации (живые логи процесса)</span>
+            <button type="button" class="log-clear-btn" id="btn-clear-log">Очистить лог</button>
+          </div>
+          <div class="log-body" id="gen-log-box">
+            <div class="log-entry info"><span class="log-time">[Система]</span> Движок Turbo готов к генерации.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Список готовых комментариев -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h2 style="font-size:15px; font-weight:600;">Список комментариев (<span id="comm-total-badge">0</span>)</h2>
+        </div>
+        <div id="comments-container" class="comments-list">
+          <div style="color:var(--text-muted); font-size:13px;">Введите тему поста выше и нажмите «Сгенерировать новые»...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         РАЗДЕЛ 2: ГЕНЕРАТОР ПАРОЛЕЙ
+         ========================================== -->
+    <section id="sec-passwords" class="hidden">
+      <div class="card">
+        <h1 class="section-title">Генератор криптостойких паролей</h1>
+
+        <div class="pw-display-box">
+          <div id="pw-result" class="pw-output">Нажмите «Сгенерировать пароль»</div>
+          <button type="button" class="btn-primary" id="btn-copy-pw">Скопировать</button>
+        </div>
+
+        <div class="strength-bars">
+          <div class="strength-bar" id="str-bar-1"></div>
+          <div class="strength-bar" id="str-bar-2"></div>
+          <div class="strength-bar" id="str-bar-3"></div>
+          <div class="strength-bar" id="str-bar-4"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Длина пароля: <b id="pw-len-val" style="color:#fff;">16</b> символов</label>
+          <input type="range" id="pw-len-slider" min="4" max="64" value="16">
+        </div>
+
+        <div class="pw-checks">
+          <label class="tiny-check" style="font-size:13px;"><input type="checkbox" id="pw-upper" checked> Заглавные (A-Z)</label>
+          <label class="tiny-check" style="font-size:13px;"><input type="checkbox" id="pw-lower" checked> Строчные (a-z)</label>
+          <label class="tiny-check" style="font-size:13px;"><input type="checkbox" id="pw-numbers" checked> Цифры (0-9)</label>
+          <label class="tiny-check" style="font-size:13px;"><input type="checkbox" id="pw-symbols" checked> Символы (!@#$%)</label>
+          <label class="tiny-check" style="font-size:13px;"><input type="checkbox" id="pw-nosimilar"> Без похожих (i, l, 1, L, o, 0, O)</label>
+          <label class="tiny-check" style="font-size:13px;"><input type="checkbox" id="pw-noambig"> Без неоднозначных ({ } [ ] ( ) / \ ' " ~)</label>
+        </div>
+
+        <div style="margin-top: 16px;">
+          <button type="button" class="btn-primary" id="btn-gen-pw">Сгенерировать пароль</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         РАЗДЕЛ 3: КРАСИВЫЕ ИНСТРУКЦИИ ПРЯМО НА САЙТЕ
+         ========================================== -->
+    <section id="sec-instructions" class="hidden">
+      <div class="card">
+        <h1 class="section-title">Полное руководство: Как пользоваться и запустить свой сайт</h1>
+
+        <!-- Приветственный баннер -->
+        <div class="inst-hero">
+          <div class="inst-hero-title">🚀 Всё работает в одном файле index.html</div>
+          <div class="inst-hero-sub">
+            Этот проект написан на чистом HTML/CSS/JS без сборщиков и платных серверов. Вы можете запустить его локально в два клика или бесплатно разместить в интернете через GitHub Pages за 3 минуты.
+          </div>
+        </div>
+
+        <!-- Карточки ключевых фишек -->
+        <div class="inst-features-grid">
+          <div class="inst-feature-card">
+            <span class="inst-feature-icon">⚡</span>
+            <h4>Турбо-режим (до 50 шт.)</h4>
+            <p>В режиме «С ключом» запросы разбиваются на параллельные потоки — все 50 комментариев создаются в 3 раза быстрее без пауз.</p>
+          </div>
+          <div class="inst-feature-card">
+            <span class="inst-feature-icon">🖼️</span>
+            <h4>Распознавание фото (Vision)</h4>
+            <p>Перетащите до 5 картинок во вкладке «Изображение», и нейросеть напишет живые комментарии по деталям на снимках.</p>
+          </div>
+          <div class="inst-feature-card">
+            <span class="inst-feature-icon">🛡️</span>
+            <h4>Чистый текст без мусора</h4>
+            <p>Все ссылки из исходного поста и технические логи ИИ автоматически вырезаются — в список попадают только чистые комментарии.</p>
+          </div>
+        </div>
+
+        <h2 style="font-size:16px; font-weight:700; margin-bottom:12px; color:#fff;">
+          📘 Пошаговая инструкция: Как сделать свой сайт и выложить на GitHub Pages
+        </h2>
+
+        <!-- Пошаговый таймлайн -->
+        <div class="inst-steps-list">
+          <div class="inst-step-card">
+            <div class="inst-step-num">1</div>
+            <div class="inst-step-body">
+              <h3>Создайте аккаунт на GitHub</h3>
+              <p>Перейдите на <b>github.com</b> и зарегистрируйтесь (Sign Up). Если аккаунт уже есть — просто войдите в него. Обязательно подтвердите почту, иначе функция публикации сайтов GitHub Pages будет неактивна.</p>
+            </div>
+          </div>
+
+          <div class="inst-step-card">
+            <div class="inst-step-num">2</div>
+            <div class="inst-step-body">
+              <h3>Создайте новый публичный репозиторий</h3>
+              <p>В правом верхнем углу нажмите на значок <span class="kbd-badge">+</span> и выберите <span class="kbd-badge">New repository</span>:</p>
+              <ul>
+                <li><b>Repository name:</b> придумайте любое название латиницей (например, <span class="kbd-badge">my-ai-site</span>).</li>
+                <li><b>Public (Публичный):</b> обязательно оставьте галочку на <span class="kbd-badge">Public</span> (для бесплатного GitHub Pages репозиторий должен быть открытым).</li>
+                <li>Поставьте галочку <span class="kbd-badge">Add a README file</span> и нажмите зелёную кнопку <span class="kbd-badge">Create repository</span> внизу.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="inst-step-card">
+            <div class="inst-step-num">3</div>
+            <div class="inst-step-body">
+              <h3>Загрузите файл index.html</h3>
+              <p>На странице вашего нового репозитория нажмите кнопку <span class="kbd-badge">Add file</span> → <span class="kbd-badge">Upload files</span>:</p>
+              <ul>
+                <li>Перетащите ваш файл <span class="kbd-badge">index.html</span> в центральное окно браузера (название файла должно быть строго <code>index.html</code> маленькими буквами!).</li>
+                <li>Подождите пару секунд, пока файл загрузится в список.</li>
+                <li>Нажмите зелёную кнопку <span class="kbd-badge">Commit changes</span> внизу страницы.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="inst-step-card">
+            <div class="inst-step-num">4</div>
+            <div class="inst-step-body">
+              <h3>Включите хостинг GitHub Pages</h3>
+              <p>Теперь превратим репозиторий в работающий сайт:</p>
+              <ul>
+                <li>В верхнем меню репозитория откройте вкладку <span class="kbd-badge">Settings</span> (Настройки).</li>
+                <li>В левой колонке найдите раздел <span class="kbd-badge">Pages</span>.</li>
+                <li>В блоке <b>Build and deployment</b> (подпункт <b>Branch</b>) переключите кнопку с <span class="kbd-badge">None</span> на <span class="kbd-badge">main</span> (или <code>master</code>) и нажмите кнопку <span class="kbd-badge">Save</span>.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="inst-step-card">
+            <div class="inst-step-num">5</div>
+            <div class="inst-step-body">
+              <h3>Получите готовую ссылку на ваш сайт!</h3>
+              <p>Подождите 1–2 минуты и обновите страницу <span class="kbd-badge">Settings → Pages</span>. Сверху появится плашка <b>«Your site is live at...»</b> с вашей персональной ссылкой вида:</p>
+              <div class="code-snippet">
+                <span>https://ваш-логин.github.io/название-репозитория/</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2 style="font-size:16px; font-weight:700; margin-bottom:10px; color:#fff;">
+          🔑 Как получить бесплатный API-ключ Pollinations (для режима «С ключом»)
+        </h2>
+
+        <div class="inst-steps-list">
+          <div class="inst-step-card">
+            <div class="inst-step-num">★</div>
+            <div class="inst-step-body">
+              <h3>Быстрая авторизация на enter.pollinations.ai</h3>
+              <ul>
+                <li>Нажмите ссылку <b>«Получить ключ»</b> в верхней панели генератора (или перейдите на <code>enter.pollinations.ai</code>).</li>
+                <li>Войдите через свой аккаунт GitHub в 1 клик.</li>
+                <li>Скопируйте сгенерированный токен (API Key), переключите на сайте кнопку в режим <span class="kbd-badge">С ключом (Быстро ⚡)</span> и вставьте ключ в поле.</li>
+                <li>Ключ автоматически сохранится в вашем браузере (<code>localStorage</code>) — вводить его заново при следующем входе не нужно!</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Частые вопросы (FAQ) -->
+        <h2 style="font-size:15px; font-weight:700; margin-bottom:8px; color:#fff;">💡 Частые вопросы и полезные советы</h2>
+        <div class="inst-faq-grid">
+          <div class="inst-faq-item">
+            <h4>Почему на GitHub ошибка 404 после включения Pages?</h4>
+            <p>Проверьте, что файл называется строго <code>index.html</code> (с маленькой буквы), и подождите 1–2 минуты, пока сервер GitHub соберёт страницу.</p>
+          </div>
+          <div class="inst-faq-item">
+            <h4>Как обновить сайт, если я изменил код?</h4>
+            <p>Зайдите в репозиторий на GitHub, нажмите на файл <code>index.html</code> → значок карандаша (Edit), вставьте новый код и нажмите <b>Commit changes</b>.</p>
+          </div>
+          <div class="inst-faq-item">
+            <h4>Зачем нужен режим «Без ключа (15с)»?</h4>
+            <p>Он позволяет пользоваться текстовым генератором вообще без регистрации, но сервер Pollinations требует паузу 15 секунд между бесплатными анонимными запросами.</p>
+          </div>
+        </div>
+
+        <div style="margin-top: 18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <button type="button" class="btn-primary" id="btn-back-to-gen">← Перейти к генератору комментариев</button>
+          <a href="https://telegra.ph/Kak-sdelat-svoj-sajt-i-vylozhit-na-GitHub-10-15" target="_blank" rel="noopener noreferrer" style="font-size:12px; color:var(--text-muted); text-decoration:underline;">
+            Версия инструкции со скриншотами в Telegra.ph ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- БОКОВОЕ МЕНЮ СПРАВА -->
+  <aside class="sidebar-right">
+    <!-- Навигация по разделам (Комментарии / Пароли / Инструкции) -->
+    <div class="card">
+      <div class="nav-menu">
+        <button type="button" class="nav-btn active" id="nav-to-comments">💬 Генератор комментариев</button>
+        <button type="button" class="nav-btn" id="nav-to-passwords">🔐 Генератор паролей</button>
+        <button type="button" class="nav-btn" id="nav-to-instructions">📖 Инструкции</button>
+      </div>
+    </div>
+
+    <!-- Отдельный блок справа, открывающий красивые встроенные инструкции на сайте -->
+    <div class="guide-side-box">
+      <div class="guide-side-title">📘 Инструкция по GitHub</div>
+      <div class="guide-side-desc">Пошаговый гайд прямо на сайте: как выложить свой index.html на GitHub Pages и ускорить генерацию.</div>
+      <button type="button" class="guide-side-btn" id="btn-side-open-guide">
+        📖 Открыть инструкцию на сайте
+      </button>
+    </div>
+
+    <!-- Онлайн-счётчик вкладок -->
+    <div class="card online-box">
+      <span>Активных вкладок:</span>
+      <div class="online-indicator">
+        <span class="online-dot"></span>
+        <span id="online-count">1</span> онлайн
+      </div>
+    </div>
+
+    <!-- Телеграм канал проекта -->
+    <a href="https://t.me/pytayus_zarabotat" target="_blank" rel="noopener noreferrer" class="tg-promo">
+      <div class="tg-promo-title">
+        <span>Телеграм канал проекта</span>
+        <span class="sparkle">✨</span>
+      </div>
+      <div class="tg-promo-sub">Обновления, гайды и полезные инструменты — t.me/pytayus_zarabotat</div>
+    </a>
+  </aside>
+</div>
+
+<script>
+  /* =========================================================================
+     ПУЛ РАКУРСОВ ДЛЯ УНИКАЛЬНОСТИ КОММЕНТАРИЕВ (ANGLES)
+     ========================================================================= */
+  const ANGLES = [
+    "выдели главную пользу",
+    "поделись личным мнением",
+    "задай вопрос по теме",
+    "отметь важную деталь",
+    "живой отклик без шаблонов",
+    "оцени актуальность темы",
+    "акцент на главном выводе",
+    "свежий взгляд на тему"
+  ];
+
+  function safeGetStorage(key, fallback) {
+    try {
+      const val = localStorage.getItem(key);
+      return val !== null ? val : fallback;
+    } catch (e) { return fallback; }
+  }
+
+  function safeSetStorage(key, val) {
+    try { localStorage.setItem(key, val); } catch (e) {}
+  }
+
+  const state = {
+    authMode: safeGetStorage('cg_authMode', 'nokey'),
+    apiKey: safeGetStorage('cg_apiKey', ''),
+    inputTab: 'text',
+    imagesBase64: [],
+    comments: [],
+    lastRequestTime: 0,
+    isGenerating: false
+  };
+
+  /* =========================================================================
+     ЛОГИРОВАНИЕ В РЕАЛЬНОМ ВРЕМЕНИ (СТРОГО В #gen-log-box)
+     ========================================================================= */
+  const logBox = document.getElementById('gen-log-box');
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function addLog(message, type = 'step') {
+    if (!logBox) return;
+    const now = new Date();
+    const timeStr = now.toTimeString().split(' ')[0];
+    const entry = document.createElement('div');
+    entry.className = 'log-entry ' + type;
+    entry.innerHTML = '<span class="log-time">[' + timeStr + ']</span> ' + escapeHtml(message);
+    logBox.appendChild(entry);
+    logBox.scrollTop = logBox.scrollHeight;
+  }
+
+  function setStatus(text, type = '') {
+    const el = document.getElementById('status-box');
+    if (!el) return;
+    el.textContent = text;
+    el.className = 'status-line ' + type;
+  }
+
+  document.getElementById('btn-clear-log').addEventListener('click', function() {
+    logBox.innerHTML = '';
+    addLog('Журнал очищен.', 'info');
+  });
+
+  /* =========================================================================
+     УДАЛЕНИЕ ССЫЛОК И ФИЛЬТРАЦИЯ ТЕХНИЧЕСКОГО МУСОРА / ЛОГОВ ИЗ КОММЕНТАРИЕВ
+     ========================================================================= */
+  function extractLinks(text) {
+    const urlRegex = /(?:https?:\/\/|www\.|t\.me\/|[a-zA-Z0-9-]+\.(?:ru|com|org|net|io|me|ai|рф)\b)[^\s<>"')\]]*/gi;
+    const links = [];
+    const cleanedText = text.replace(urlRegex, function(match) {
+      links.push(match);
+      return '';
+    }).replace(/\(\s*\)/g, '').replace(/\s{2,}/g, ' ').trim();
+    return { cleanedText: cleanedText, links: links };
+  }
+
+  // Проверяет, не является ли строка техническим логом, куском JSON или мета-текстом ИИ
+  function isGarbageOrLogLine(str) {
+    if (!str) return true;
+    const s = str.trim();
+    if (s.length < 4) return true;
+
+    // 1. Отсекаем любые JSON-объекты, SSE-данные и технические поля API
+    if (/^[\{\[\]\}]/.test(s) || /[\{\}\[\]]$/.test(s)) return true;
+    if (/^data:\s*/i.test(s) || s === '[DONE]') return true;
+    if (/"(?:id|object|created|model|choices|delta|message|role|content|finish_reason|usage|prompt_tokens|seed|temperature)"\s*:/i.test(s)) return true;
+
+    // 2. Отсекаем строки с таймштампами логов [12:34:56] или системными тегами
+    if (/^\[\d{1,2}:\d{2}(?::\d{2})?\]/.test(s)) return true;
+    if (/^\[(?:Система|System|Log|Info|Error|Warn)\]/i.test(s)) return true;
+    if (/^(?:⏳|⚡|🚀|🔄|📡|📦|🚫|❌|🎉|📋|💾)\s*(?:Генерация|Ожидание|Запрос|Параметры|Слот|Догенерация|Старт|Турбо)/i.test(s)) return true;
+
+    // 3. Отсекаем эхо системного промта и вводные фразы нейросети
+    if (/^(?:вот\s+\d+|конечно[,!]|список\s+комментариев|комментарии\s+к\s+посту|правила:|углы:|ракурсы:|формат:|требования:|примечание:|выдай\s+ровно)/i.test(s)) return true;
+    if (/^(?:комментарий|вариант)\s*#?\d+\s*[:\-]?$/i.test(s)) return true;
+    if (/^[|\-=_*#~]{2,}$/.test(s)) return true;
+
+    return false;
+  }
+
+  // Очищает текст комментария от ссылок, префиксов ("Комментарий 1:"), кавычек и мусора
+  function sanitizeCommentText(rawText) {
+    if (!rawText) return '';
+    let s = String(rawText)
+      .replace(/\{LINK\}/gi, '')
+      .replace(/\|\|\|/g, '')
+      .replace(/(?:https?:\/\/|www\.|t\.me\/|[a-zA-Z0-9-]+\.(?:ru|com|org|net|io|me|ai|рф)\b)[^\s<>"')\]]*/gi, '')
+      .replace(/^\s*(?:комментарий\s*#?\d+\s*[:\.\)\-]\s*|\d+\s*[\.\)\-:]\s*|[\-\*•]\s*)/i, '')
+      .replace(/^["«„](.*)["»“]$/, '$1')
+      .replace(/\(\s*\)/g, '')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+
+    if (isGarbageOrLogLine(s)) return '';
+    return s;
+  }
+
+  function linkify(safeText) {
+    const urlRegex = /(https?:\/\/[^\s<>"')\]]+)/gi;
+    return safeText.replace(urlRegex, function(url) {
+      return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + url + '</a>';
+    });
+  }
+
+  /* =========================================================================
+     СОХРАНЕНИЕ И ЗАГРУЗКА НАСТРОЕК
+     ========================================================================= */
+  const elApiKey = document.getElementById('api-key-input');
+  const elKeySaved = document.getElementById('key-saved-badge');
+  const elCustomStyle = document.getElementById('custom-style');
+  const elCommCount = document.getElementById('comm-count');
+  const elSentMode = document.getElementById('sent-mode');
+  const elCustomSentWrap = document.getElementById('custom-sent-wrap');
+  const elCustomSentCount = document.getElementById('custom-sent-count');
+  const elAuthorName = document.getElementById('author-name');
+  const elAuthorGender = document.getElementById('author-gender');
+  const elChkEmoji = document.getElementById('chk-emoji');
+  const elChkPositive = document.getElementById('chk-positive');
+
+  function loadSettings() {
+    elApiKey.value = state.apiKey;
+    if (state.apiKey) elKeySaved.classList.add('show');
+
+    elCustomStyle.value = safeGetStorage('cg_customStyle', '');
+    elCommCount.value = safeGetStorage('cg_commCount', '5');
+    elSentMode.value = safeGetStorage('cg_sentMode', '2');
+    elCustomSentCount.value = safeGetStorage('cg_customSentCount', '4');
+    elAuthorName.value = safeGetStorage('cg_authorName', 'none');
+    elAuthorGender.value = safeGetStorage('cg_authorGender', 'any');
+    elChkEmoji.checked = safeGetStorage('cg_chkEmoji', 'true') === 'true';
+    elChkPositive.checked = safeGetStorage('cg_chkPositive', 'false') === 'true';
+
+    updateAuthUI();
+    updateSentUI();
+  }
+
+  function saveSettings() {
+    safeSetStorage('cg_customStyle', elCustomStyle.value);
+    safeSetStorage('cg_commCount', elCommCount.value);
+    safeSetStorage('cg_sentMode', elSentMode.value);
+    safeSetStorage('cg_customSentCount', elCustomSentCount.value);
+    safeSetStorage('cg_authorName', elAuthorName.value);
+    safeSetStorage('cg_authorGender', elAuthorGender.value);
+    safeSetStorage('cg_chkEmoji', String(elChkEmoji.checked));
+    safeSetStorage('cg_chkPositive', String(elChkPositive.checked));
+  }
+
+  [elCustomStyle, elCommCount, elSentMode, elCustomSentCount, elAuthorName, elAuthorGender, elChkEmoji, elChkPositive].forEach(function(el) {
+    el.addEventListener('change', function() {
+      saveSettings();
+      updateSentUI();
+    });
+    el.addEventListener('input', saveSettings);
+  });
+
+  elApiKey.addEventListener('input', function() {
+    state.apiKey = elApiKey.value.trim();
+    safeSetStorage('cg_apiKey', state.apiKey);
+    if (state.apiKey) elKeySaved.classList.add('show');
+    else elKeySaved.classList.remove('show');
+  });
+
+  function updateSentUI() {
+    elCustomSentWrap.style.display = elSentMode.value === 'custom' ? 'block' : 'none';
+  }
+
+  function updateAuthUI() {
+    document.getElementById('btn-auth-nokey').classList.toggle('active', state.authMode === 'nokey');
+    document.getElementById('btn-auth-key').classList.toggle('active', state.authMode === 'key');
+    safeSetStorage('cg_authMode', state.authMode);
+  }
+
+  document.getElementById('btn-auth-nokey').addEventListener('click', function() {
+    state.authMode = 'nokey';
+    updateAuthUI();
+    addLog('Режим: Без ключа (1 запрос в 15 сек).', 'info');
+  });
+
+  document.getElementById('btn-auth-key').addEventListener('click', function() {
+    state.authMode = 'key';
+    updateAuthUI();
+    addLog('Режим: С ключом (Турбо-параллельная генерация + поддержка картинок).', 'info');
+  });
+
+  /* =========================================================================
+     ВКЛАДКИ ТЕКСТ / ИЗОБРАЖЕНИЕ И ЗАГРУЗКА ФАЙЛОВ
+     ========================================================================= */
+  const tabText = document.getElementById('tab-mode-text');
+  const tabVision = document.getElementById('tab-mode-vision');
+  const dropzone = document.getElementById('vision-dropzone');
+  const fileInput = document.getElementById('vision-file-input');
+  const previewsBox = document.getElementById('vision-previews');
+
+  tabText.addEventListener('click', function() {
+    state.inputTab = 'text';
+    tabText.classList.add('active');
+    tabVision.classList.remove('active');
+    dropzone.classList.remove('active');
+    addLog('Вкладка переключена: Текст', 'info');
+  });
+
+  tabVision.addEventListener('click', function() {
+    state.inputTab = 'vision';
+    tabVision.classList.add('active');
+    tabText.classList.remove('active');
+    dropzone.classList.add('active');
+    addLog('Вкладка переключена: Изображение (Vision)', 'info');
+  });
+
+  dropzone.addEventListener('click', function(e) {
+    if (e.target.classList.contains('preview-remove')) return;
+    fileInput.click();
+  });
+
+  dropzone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    dropzone.classList.add('dragover');
+  });
+
+  dropzone.addEventListener('dragleave', function() {
+    dropzone.classList.remove('dragover');
+  });
+
+  dropzone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dropzone.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+  });
+
+  fileInput.addEventListener('change', function() {
+    handleFiles(fileInput.files);
+    fileInput.value = '';
+  });
+
+  function handleFiles(fileList) {
+    const files = Array.from(fileList || []);
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (!file.type.startsWith('image/')) continue;
+      if (state.imagesBase64.length >= 5) {
+        addLog('Достигнут лимит 5 изображений.', 'warn');
+        break;
+      }
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        if (state.imagesBase64.length < 5) {
+          state.imagesBase64.push(ev.target.result);
+          addLog('Добавлена картинка #' + state.imagesBase64.length + ' (' + file.name + ')', 'ok');
+          renderImagePreviews();
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function renderImagePreviews() {
+    previewsBox.innerHTML = '';
+    state.imagesBase64.forEach(function(b64, index) {
+      const div = document.createElement('div');
+      div.className = 'preview-item';
+      div.innerHTML = '<img src="' + b64 + '" alt="preview">' +
+        '<button type="button" class="preview-remove" data-idx="' + index + '">×</button>';
+      previewsBox.appendChild(div);
+    });
+
+    previewsBox.querySelectorAll('.preview-remove').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const idx = parseInt(btn.getAttribute('data-idx'), 10);
+        state.imagesBase64.splice(idx, 1);
+        addLog('Удалена картинка #' + (idx + 1), 'info');
+        renderImagePreviews();
+      });
+    });
+  }
+
+  /* =========================================================================
+     УЛЬТРА-ЧИСТЫЙ СИСТЕМНЫЙ ПРОМТ
+     ========================================================================= */
+  function buildSystemPrompt(count, chosenAngles) {
+    const sentMode = elSentMode.value;
+    let sentRule = '2 предложения';
+    if (sentMode === 'random') sentRule = 'от 1 до 3 предложений';
+    else if (sentMode === 'custom') sentRule = (Math.min(10, Math.max(1, parseInt(elCustomSentCount.value, 10) || 2))) + ' предл.';
+    else sentRule = sentMode + ' предл.';
+
+    const authorMode = elAuthorName.value;
+    let nameRule = 'без имён в начале';
+    if (authorMode === 'ru') nameRule = 'в начале русское имя и двоеточие (например, Анна: текст)';
+    if (authorMode === 'en') nameRule = 'в начале англ. ник и двоеточие (например, user_01: текст)';
+
+    const gender = elAuthorGender.value;
+    let genderRule = 'чередуй мужской и женский род';
+    if (gender === 'male') genderRule = 'строго мужской род';
+    if (gender === 'female') genderRule = 'строго женский род';
+
+    const emojiRule = elChkEmoji.checked ? '1-2 смайлика' : 'строго без смайликов';
+    const toneRule = elChkPositive.checked ? 'позитивный тон' : 'естественный разговорный тон';
+    const customStyle = elCustomStyle.value.trim();
+
+    return [
+      'Ты пишешь живые комментарии для соцсетей на русском языке.',
+      'Задача: напиши РОВНО ' + count + ' разных комментариев к посту пользователя.',
+      'СТРОГИЙ ФОРМАТ ВЫВОДА: Выводи ТОЛЬКО сами комментарии, разделяя их символами ||| (три вертикальные черты). Запрещено писать вводные фразы ("Вот комментарии:"), нумерацию, ссылки и любые пояснения.',
+      'Требования к каждому комментарию: ' + sentRule + ', ' + nameRule + ', ' + genderRule + ', ' + emojiRule + ', ' + toneRule + (customStyle ? (', стиль: ' + customStyle) : '') + '.',
+      'Смысловые акценты: ' + chosenAngles.join(', ') + '.'
+    ].join('\n');
+  }
+
+  /* =========================================================================
+     ПРОВЕРКА ЛИМИТА 15 СЕКУНД (ТОЛЬКО ДЛЯ РЕЖИМА БЕЗ КЛЮЧА)
+     ========================================================================= */
+  async function waitRateLimitIfNeeded() {
+    if (state.authMode !== 'nokey') return;
+    const elapsed = Date.now() - state.lastRequestTime;
+    const cooldown = 15000;
+    if (state.lastRequestTime > 0 && elapsed < cooldown) {
+      let remainSec = Math.ceil((cooldown - elapsed) / 1000);
+      addLog('⏳ Лимит «Без ключа»: ждём ' + remainSec + ' сек... (с ключом ожидания нет)', 'warn');
+      while (remainSec > 0) {
+        setStatus('Ожидание лимита API (Без ключа): ' + remainSec + ' сек...', 'loading');
+        await new Promise(function(r) { setTimeout(r, 1000); });
+        remainSec--;
+      }
+    }
+  }
+
+  /* =========================================================================
+     БЕЗОПАСНОЕ ИЗВЛЕЧЕНИЕ ТОЛЬКО ТЕКСТА КОММЕНТАРИЕВ ИЗ ОТВЕТА POLLINATIONS
+     ========================================================================= */
+  function extractContentFromRawResponse(rawText) {
+    if (!rawText) return '';
+    const trimmed = rawText.trim();
+
+    if (trimmed.includes('data:') && trimmed.includes('"choices"')) {
+      let combined = '';
+      const lines = trimmed.split('\n');
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line.startsWith('data:')) continue;
+        const payload = line.replace(/^data:\s*/, '').trim();
+        if (payload === '[DONE]') continue;
+        try {
+          const parsed = JSON.parse(payload);
+          const delta = parsed?.choices?.[0]?.delta?.content ?? parsed?.choices?.[0]?.message?.content ?? '';
+          if (typeof delta === 'string') combined += delta;
+        } catch (e) {}
+      }
+      return combined;
+    }
+
+    if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+      try {
+        const json = JSON.parse(trimmed);
+        if (json?.error) {
+          throw new Error(json.error.message || JSON.stringify(json.error));
+        }
+        const msgContent = json?.choices?.[0]?.message?.content ?? json?.content ?? '';
+        if (typeof msgContent === 'string') return msgContent;
+        return '';
+      } catch (e) {
+        if (e.message && !e.message.includes('JSON')) throw e;
+        return '';
+      }
+    }
+
+    if (/^<!DOCTYPE html>|^<html/i.test(trimmed)) {
+      throw new Error('Сервер Pollinations временно перегружен (HTML response)');
+    }
+
+    return trimmed;
+  }
+
+  function splitRawComments(rawContent) {
+    if (!rawContent) return [];
+    const normalized = rawContent
+      .replace(/\s*\|\|\|\s*/g, '\n')
+      .replace(/\n*---\n*/g, '\n');
+
+    const lines = normalized.split(/\r?\n+/);
+    const cleanList = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const cleaned = sanitizeCommentText(lines[i]);
+      if (cleaned) {
+        cleanList.push(cleaned);
+      }
+    }
+    return cleanList;
+  }
+
+  /* =========================================================================
+     ТУРБО-ЗАПРОС К POLLINATIONS (БЕЗ ПРОТЕЧЕК СЫРЫХ ЛОГОВ В КОММЕНТАРИИ)
+     ========================================================================= */
+  async function fetchPollinationsFast(systemPrompt, userText, onCommentReady) {
+    const seed = Math.floor(Math.random() * 899999) + 100000;
+    const temperature = +(0.9 + Math.random() * 0.25).toFixed(2);
+    const isVision = state.inputTab === 'vision' && state.imagesBase64.length > 0;
+
+    const endpoint = isVision
+      ? 'https://gen.pollinations.ai/v1/chat/completions'
+      : 'https://text.pollinations.ai/openai';
+
+    const fastUserText = (userText || 'Обсуди тему').slice(0, 1200);
+
+    const headers = { 'Content-Type': 'application/json' };
+    if (state.authMode === 'key' && state.apiKey) {
+      headers['Authorization'] = 'Bearer ' + state.apiKey;
+    }
+
+    let messages = [];
+    if (isVision) {
+      const contentArr = [{ type: 'text', text: fastUserText }];
+      state.imagesBase64.forEach(function(b64) {
+        contentArr.push({ type: 'image_url', image_url: { url: b64 } });
+      });
+      messages = [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: contentArr }
+      ];
+    } else {
+      messages = [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: fastUserText }
+      ];
+    }
+
+    state.lastRequestTime = Date.now();
+
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(function() { controller.abort(); }, 30000);
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({
+          model: 'openai',
+          messages: messages,
+          seed: seed,
+          temperature: temperature,
+          stream: !isVision
+        }),
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errBody = await response.text();
+        throw new Error('HTTP ' + response.status + ' (' + errBody.slice(0, 60) + ')');
+      }
+
+      const contentType = response.headers.get('content-type') || '';
+
+      if (!isVision && response.body && contentType.includes('event-stream')) {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+        let fullText = '';
+        let sseBuffer = '';
+        let emittedCount = 0;
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          sseBuffer += decoder.decode(value, { stream: true });
+
+          const lines = sseBuffer.split('\n');
+          sseBuffer = lines.pop() || '';
+
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line.startsWith('data:')) continue;
+            const dataStr = line.replace(/^data:\s*/, '').trim();
+            if (dataStr === '[DONE]') continue;
+            try {
+              const parsed = JSON.parse(dataStr);
+              const delta = parsed?.choices?.[0]?.delta?.content;
+              if (typeof delta === 'string' && delta.length > 0) {
+                fullText += delta;
+                const parts = splitRawComments(fullText);
+                while (parts.length > emittedCount + 1) {
+                  onCommentReady(parts[emittedCount]);
+                  emittedCount++;
+                }
+              }
+            } catch (e) {}
+          }
+        }
+
+        const finalParts = splitRawComments(fullText);
+        while (emittedCount < finalParts.length) {
+          onCommentReady(finalParts[emittedCount]);
+          emittedCount++;
+        }
+        return finalParts;
+      }
+
+      const rawText = await response.text();
+      const pureContent = extractContentFromRawResponse(rawText);
+      const list = splitRawComments(pureContent);
+      list.forEach(function(item) { onCommentReady(item); });
+      return list;
+
+    } catch (primaryErr) {
+      if (!isVision) {
+        const fallbackResp = await fetch('https://text.pollinations.ai/openai', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'openai',
+            messages: messages,
+            seed: seed,
+            temperature: temperature,
+            stream: false
+          })
+        });
+        if (!fallbackResp.ok) throw primaryErr;
+        const raw = await fallbackResp.text();
+        const pureContent = extractContentFromRawResponse(raw);
+        const list = splitRawComments(pureContent);
+        list.forEach(function(item) { onCommentReady(item); });
+        return list;
+      }
+      throw primaryErr;
+    }
+  }
+
+  /* =========================================================================
+     ТУРБО-ГЕНЕРАЦИЯ N КОММЕНТАРИЕВ (ПАРАЛЛЕЛЬНЫЕ ПОТОКИ + ДОБОР ДО 50 ШТ.)
+     ========================================================================= */
+  const btnGenerate = document.getElementById('btn-generate');
+  btnGenerate.addEventListener('click', generateBatchComments);
+
+  async function generateBatchComments() {
+    if (state.isGenerating) {
+      addLog('⏳ Генерация уже идёт...', 'warn');
+      return;
+    }
+
+    const postInputEl = document.getElementById('post-text');
+    let rawPost = postInputEl.value.trim();
+    const isVision = state.inputTab === 'vision';
+
+    if (!rawPost && (!isVision || state.imagesBase64.length === 0)) {
+      setStatus('⚠️ Введите текст поста или тему в поле выше!', 'error');
+      addLog('❌ Ошибка: поле «Текст поста или тема» пустое.', 'err');
+      postInputEl.focus();
+      return;
+    }
+
+    if (isVision && state.imagesBase64.length > 0 && state.authMode === 'nokey') {
+      setStatus('⚠️ Для картинок (Vision) переключитесь на «С ключом»!', 'error');
+      addLog('❌ Режим изображений работает только с API-ключом Pollinations.', 'err');
+      return;
+    }
+
+    const targetCount = Math.min(50, Math.max(1, parseInt(elCommCount.value, 10) || 5));
+    state.isGenerating = true;
+    btnGenerate.disabled = true;
+    btnGenerate.textContent = '⏳ Генерация...';
+
+    const startTime = Date.now();
+
+    try {
+      addLog('🚀 Турбо-старт: запрошено ' + targetCount + ' коммент.', 'info');
+
+      const extracted = extractLinks(rawPost);
+      const cleanedText = extracted.cleanedText || 'Обсуди тему поста';
+      if (extracted.links.length > 0) {
+        addLog('🚫 Вырезано ссылок из поста: ' + extracted.links.length + ' шт. (в комментарии не попадут).', 'info');
+      }
+
+      state.comments = [];
+      const container = document.getElementById('comments-container');
+      container.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < targetCount; i++) {
+        frag.appendChild(buildPendingSlotNode(i));
+      }
+      container.appendChild(frag);
+
+      let currentIndex = 0;
+
+      function handleIncomingComment(rawCommText) {
+        if (currentIndex >= targetCount) return;
+        const finalComm = sanitizeCommentText(rawCommText);
+        if (!finalComm) return;
+
+        if (currentIndex > 0 && state.comments[currentIndex - 1] === finalComm) return;
+
+        const slotIdx = currentIndex;
+        state.comments[slotIdx] = finalComm;
+        currentIndex++;
+
+        fillSlotDOM(slotIdx, finalComm);
+        updateCommentsMeta();
+
+        const elapsedMs = Date.now() - startTime;
+        setStatus('⚡ Сгенерировано: ' + currentIndex + ' из ' + targetCount + '...', 'loading');
+        addLog('✅ #' + currentIndex + '/' + targetCount + ' (' + elapsedMs + ' мс): "' + finalComm.slice(0, 48) + '..."', 'ok');
+      }
+
+      if (state.authMode === 'key' && targetCount > 18) {
+        const chunks = [];
+        let left = targetCount;
+        while (left > 0) {
+          const size = Math.min(18, left);
+          chunks.push(size);
+          left -= size;
+        }
+        addLog('⚡ Параллельный Турбо-режим: запуск ' + chunks.length + ' потоков (' + chunks.join(' + ') + ' шт.)', 'info');
+        setStatus('⚡ Параллельная генерация в ' + chunks.length + ' потоках...', 'loading');
+
+        await Promise.all(chunks.map(function(chunkSize) {
+          const angles = ANGLES.slice().sort(function() { return 0.5 - Math.random(); }).slice(0, 3);
+          const sysPrompt = buildSystemPrompt(chunkSize, angles);
+          return fetchPollinationsFast(sysPrompt, cleanedText, handleIncomingComment);
+        }));
+      }
+
+      let attempt = 0;
+      const maxAttempts = 6;
+      const MAX_PER_REQUEST = 25;
+
+      while (currentIndex < targetCount && attempt < maxAttempts) {
+        attempt++;
+        const remaining = targetCount - currentIndex;
+        const batchSize = Math.min(MAX_PER_REQUEST, remaining);
+
+        if (currentIndex > 0) {
+          addLog('🔄 Догенерация оставшихся ' + remaining + ' шт. до ' + targetCount + '...', 'warn');
+        }
+
+        await waitRateLimitIfNeeded();
+
+        const shuffledAngles = ANGLES.slice().sort(function() { return 0.5 - Math.random(); }).slice(0, 3);
+        const sysPrompt = buildSystemPrompt(batchSize, shuffledAngles);
+
+        setStatus('⚡ Генерируем комментарии (' + currentIndex + ' / ' + targetCount + ')...', 'loading');
+        await fetchPollinationsFast(sysPrompt, cleanedText, handleIncomingComment);
+      }
+
+      for (let i = state.comments.length; i < targetCount; i++) {
+        const leftover = document.getElementById('comm-card-' + i);
+        if (leftover) leftover.remove();
+      }
+
+      updateCommentsMeta();
+      const totalSec = ((Date.now() - startTime) / 1000).toFixed(1);
+      setStatus('✅ Готово! Сгенерировано ' + state.comments.length + ' из ' + targetCount + ' коммент. за ' + totalSec + ' сек.', 'success');
+      addLog('🎉 Все ' + state.comments.length + ' коммент. сгенерированы за ' + totalSec + ' сек!', 'ok');
+
+    } catch (err) {
+      setStatus('❌ Ошибка генерации: ' + err.message, 'error');
+      addLog('❌ Ошибка API: ' + err.message, 'err');
+    } finally {
+      state.isGenerating = false;
+      btnGenerate.disabled = false;
+      btnGenerate.textContent = '⚡ Сгенерировать новые';
+    }
+  }
+
+  /* =========================================================================
+     СОЗДАНИЕ И ЗАПОЛНЕНИЕ КАРТОЧЕК КОММЕНТАРИЕВ
+     ========================================================================= */
+  function buildPendingSlotNode(idx) {
+    const item = document.createElement('div');
+    item.className = 'comment-item pending';
+    item.id = 'comm-card-' + idx;
+    item.innerHTML =
+      '<div class="comment-top">' +
+        '<span class="comment-num">#' + (idx + 1) + '</span>' +
+        '<div class="comment-text" id="comm-text-' + idx + '" style="color:var(--text-muted);">⏳ Ожидание очереди...</div>' +
+      '</div>' +
+      '<div class="comment-actions">' +
+        '<button type="button" class="btn-mini" data-regen="' + idx + '" disabled>🔄 Ещё вариант</button>' +
+        '<button type="button" class="btn-mini" data-copy="' + idx + '" disabled>📋 Копировать</button>' +
+      '</div>';
+    return item;
+  }
+
+  function fillSlotDOM(idx, finalComment) {
+    let item = document.getElementById('comm-card-' + idx);
+    if (!item) {
+      item = buildPendingSlotNode(idx);
+      document.getElementById('comments-container').appendChild(item);
+    }
+    item.classList.remove('pending');
+
+    const textEl = document.getElementById('comm-text-' + idx);
+    textEl.style.color = '';
+    textEl.innerHTML = linkify(escapeHtml(finalComment));
+
+    const btnRegen = item.querySelector('[data-regen="' + idx + '"]');
+    const btnCopy = item.querySelector('[data-copy="' + idx + '"]');
+    btnRegen.disabled = false;
+    btnCopy.disabled = false;
+
+    btnCopy.onclick = function() {
+      navigator.clipboard.writeText(state.comments[idx] || finalComment);
+      const old = btnCopy.textContent;
+      btnCopy.textContent = '✓ Скопировано';
+      addLog('📋 Комментарий #' + (idx + 1) + ' скопирован.', 'info');
+      setTimeout(function() { btnCopy.textContent = old; }, 1300);
+    };
+
+    btnRegen.onclick = function() {
+      regenerateSingleComment(idx, btnRegen);
+    };
+  }
+
+  async function regenerateSingleComment(idx, btnEl) {
+    if (state.isGenerating) return;
+    const rawPost = document.getElementById('post-text').value.trim();
+    const extracted = extractLinks(rawPost);
+
+    state.isGenerating = true;
+    const oldText = btnEl.textContent;
+    btnEl.textContent = '⏳ Обновление...';
+    btnEl.disabled = true;
+
+    try {
+      addLog('🔄 Перегенерация комментария #' + (idx + 1) + '...', 'info');
+      await waitRateLimitIfNeeded();
+
+      const angle = [ANGLES[Math.floor(Math.random() * ANGLES.length)]];
+      const sysPrompt = buildSystemPrompt(1, angle);
+
+      setStatus('⏳ Обновляем комментарий #' + (idx + 1) + '...', 'loading');
+      let updated = false;
+      await fetchPollinationsFast(sysPrompt, extracted.cleanedText || 'Напиши 1 комментарий', function(oneComm) {
+        if (updated) return;
+        const finalComm = sanitizeCommentText(oneComm);
+        if (!finalComm) return;
+        updated = true;
+        state.comments[idx] = finalComm;
+        fillSlotDOM(idx, finalComm);
+        setStatus('✅ Комментарий #' + (idx + 1) + ' обновлён!', 'success');
+        addLog('✅ Новый вариант для #' + (idx + 1) + ' готов: "' + finalComm.slice(0, 50) + '..."', 'ok');
+      });
+    } catch (err) {
+      setStatus('❌ Ошибка обновления #' + (idx + 1) + ': ' + err.message, 'error');
+      addLog('❌ Ошибка при обновлении #' + (idx + 1) + ': ' + err.message, 'err');
+    } finally {
+      btnEl.textContent = oldText;
+      btnEl.disabled = false;
+      state.isGenerating = false;
+    }
+  }
+
+  function updateCommentsMeta() {
+    const validCount = state.comments.filter(Boolean).length;
+    document.getElementById('comm-total-badge').textContent = validCount;
+
+    const copyAllBtn = document.getElementById('btn-copy-all');
+    const dlBtn = document.getElementById('btn-download-txt');
+
+    if (validCount >= 1) copyAllBtn.classList.remove('hidden');
+    else copyAllBtn.classList.add('hidden');
+
+    if (validCount >= 10) dlBtn.classList.remove('hidden');
+    else dlBtn.classList.add('hidden');
+  }
+
+  // Кнопка «Скопировать все»
+  document.getElementById('btn-copy-all').addEventListener('click', function(e) {
+    const valid = state.comments.filter(Boolean);
+    if (!valid.length) return;
+    const allText = valid.join('\n\n');
+    navigator.clipboard.writeText(allText);
+    const btn = e.currentTarget;
+    const orig = btn.textContent;
+    btn.textContent = '✓ Все скопированы (' + valid.length + ')!';
+    addLog('📋 Скопированы все комментарии (' + valid.length + ' шт.) в буфер обмена.', 'ok');
+    setTimeout(function() { btn.textContent = orig; }, 1600);
+  });
+
+  // Кнопка «Очистить»
+  document.getElementById('btn-clear').addEventListener('click', function() {
+    state.comments = [];
+    document.getElementById('comments-container').innerHTML =
+      '<div style="color:var(--text-muted); font-size:13px;">Список очищен.</div>';
+    updateCommentsMeta();
+    setStatus('', '');
+    addLog('🧹 Список комментариев очищен.', 'info');
+  });
+
+  // Кнопка «Скачать в TXT»
+  document.getElementById('btn-download-txt').addEventListener('click', function() {
+    const valid = state.comments.filter(Boolean);
+    if (!valid.length) return;
+    const content = valid.map(function(c, i) { return (i + 1) + '. ' + c; }).join('\n\n');
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'comments_' + valid.length + '.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+    addLog('💾 Скачан файл TXT (' + valid.length + ' коммент.).', 'ok');
+  });
+
+  /* =========================================================================
+     РАЗДЕЛ 2: ГЕНЕРАТОР ПАРОЛЕЙ
+     ========================================================================= */
+  const pwSlider = document.getElementById('pw-len-slider');
+  const pwLenVal = document.getElementById('pw-len-val');
+  const pwResult = document.getElementById('pw-result');
+
+  pwSlider.addEventListener('input', function() {
+    pwLenVal.textContent = pwSlider.value;
+    generatePassword();
+  });
+
+  ['pw-upper', 'pw-lower', 'pw-numbers', 'pw-symbols', 'pw-nosimilar', 'pw-noambig'].forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('change', generatePassword);
+  });
+
+  document.getElementById('btn-gen-pw').addEventListener('click', generatePassword);
+
+  function generatePassword() {
+    const length = parseInt(pwSlider.value, 10) || 16;
+    const useUpper = document.getElementById('pw-upper').checked;
+    const useLower = document.getElementById('pw-lower').checked;
+    const useNum = document.getElementById('pw-numbers').checked;
+    const useSym = document.getElementById('pw-symbols').checked;
+    const noSimilar = document.getElementById('pw-nosimilar').checked;
+    const noAmbig = document.getElementById('pw-noambig').checked;
+
+    let chars = '';
+    if (useUpper) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if (useLower) chars += 'abcdefghijklmnopqrstuvwxyz';
+    if (useNum) chars += '0123456789';
+    if (useSym) chars += '!@#$%^&*+-=?_';
+
+    if (noSimilar) chars = chars.replace(/[il1Lo0O]/g, '');
+    if (noAmbig) chars = chars.replace(/[{}[\]()\/\\'"~,;.<>]/g, '');
+
+    if (!chars.length) {
+      pwResult.textContent = 'Выберите хотя бы один тип символов';
+      updateStrengthBars(0);
+      return;
+    }
+
+    const randomBuffer = new Uint32Array(length);
+    window.crypto.getRandomValues(randomBuffer);
+
+    let password = '';
+    for (let i = 0; i < length; i++) {
+      password += chars[randomBuffer[i] % chars.length];
+    }
+
+    pwResult.textContent = password;
+
+    let score = 1;
+    if (length >= 10) score++;
+    if (length >= 14 && (useUpper + useLower + useNum + useSym) >= 3) score++;
+    if (length >= 20 && (useUpper + useLower + useNum + useSym) === 4) score++;
+    updateStrengthBars(score);
+  }
+
+  function updateStrengthBars(score) {
+    const colors = ['#ef4444', '#f59e0b', '#84cc16', '#22c55e'];
+    for (let i = 1; i <= 4; i++) {
+      const bar = document.getElementById('str-bar-' + i);
+      if (bar) bar.style.background = i <= score ? colors[score - 1] : 'var(--border)';
+    }
+  }
+
+  document.getElementById('btn-copy-pw').addEventListener('click', function(e) {
+    const text = pwResult.textContent;
+    if (!text || text.includes('Выберите')) return;
+    navigator.clipboard.writeText(text);
+    const btn = e.currentTarget;
+    const orig = btn.textContent;
+    btn.textContent = '✓ Скопировано!';
+    setTimeout(function() { btn.textContent = orig; }, 1300);
+  });
+
+  /* =========================================================================
+     НАВИГАЦИЯ МЕЖДУ 3 РАЗДЕЛАМИ И ОНЛАЙН-СЧЁТЧИК ВКЛАДОК
+     ========================================================================= */
+  const navComm = document.getElementById('nav-to-comments');
+  const navPass = document.getElementById('nav-to-passwords');
+  const navInst = document.getElementById('nav-to-instructions');
+  const btnSideGuide = document.getElementById('btn-side-open-guide');
+  const btnBackToGen = document.getElementById('btn-back-to-gen');
+
+  const secComm = document.getElementById('sec-comments');
+  const secPass = document.getElementById('sec-passwords');
+  const secInst = document.getElementById('sec-instructions');
+
+  function switchSection(activeBtn, activeSec) {
+    [navComm, navPass, navInst].forEach(function(b) { b.classList.remove('active'); });
+    [secComm, secPass, secInst].forEach(function(s) { s.classList.add('hidden'); });
+    activeBtn.classList.add('active');
+    activeSec.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  navComm.addEventListener('click', function() { switchSection(navComm, secComm); });
+  navPass.addEventListener('click', function() {
+    switchSection(navPass, secPass);
+    generatePassword();
+  });
+  navInst.addEventListener('click', function() { switchSection(navInst, secInst); });
+  btnSideGuide.addEventListener('click', function() { switchSection(navInst, secInst); });
+  btnBackToGen.addEventListener('click', function() { switchSection(navComm, secComm); });
+
+  (function initTabCounter() {
+    try {
+      const tabId = Math.random().toString(36).slice(2);
+      const activeTabs = new Set([tabId]);
+      const onlineEl = document.getElementById('online-count');
+
+      if ('BroadcastChannel' in window) {
+        const bc = new BroadcastChannel('cg_online_tabs');
+        function updateCount() {
+          if (onlineEl) onlineEl.textContent = activeTabs.size;
+        }
+        bc.onmessage = function(ev) {
+          const data = ev.data || {};
+          if (data.type === 'ping') {
+            activeTabs.add(data.id);
+            bc.postMessage({ type: 'pong', id: tabId });
+            updateCount();
+          } else if (data.type === 'pong') {
+            activeTabs.add(data.id);
+            updateCount();
+          } else if (data.type === 'close') {
+            activeTabs.delete(data.id);
+            updateCount();
+          }
+        };
+        bc.postMessage({ type: 'ping', id: tabId });
+        window.addEventListener('beforeunload', function() {
+          bc.postMessage({ type: 'close', id: tabId });
+        });
+      }
+    } catch (e) {}
+  })();
+
+  loadSettings();
+  generatePassword();
+</script>
+</body>
+</html>
