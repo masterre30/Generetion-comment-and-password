@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Comment & Password Generator</title>
+  <title>AI Comment, Image & Password Generator</title>
   <style>
     /* ==========================================
        БАЗОВЫЕ ПЕРЕМЕННЫЕ И СБРОС СТИЛЕЙ
@@ -65,9 +65,7 @@
       margin-bottom: 16px;
     }
 
-    .sidebar-right .card {
-      margin-bottom: 0;
-    }
+    .sidebar-right .card { margin-bottom: 0; }
 
     .section-title {
       font-size: 18px;
@@ -99,9 +97,7 @@
       gap: 10px;
     }
 
-    .nav-btn:hover {
-      border-color: var(--accent-start);
-    }
+    .nav-btn:hover { border-color: var(--accent-start); }
 
     .nav-btn.active {
       background: var(--accent-grad);
@@ -109,7 +105,6 @@
       color: #fff;
     }
 
-    /* Блок инструкций справа */
     .guide-side-box {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -279,7 +274,7 @@
     .api-link { font-size: 11px; color: var(--accent-start); text-decoration: none; }
 
     /* Верхние вкладки РАЗНОЙ формы */
-    .top-tabs { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .top-tabs { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
 
     .tab-pill-round {
       border-radius: 999px;
@@ -322,12 +317,14 @@
     }
 
     /* ==========================================
-       ПОЛЯ ВВОДА И ЗАГРУЗКА КАРТИНОК
+       ПОЛЯ ВВОДА, УМНОЕ РАСПОЗНАВАНИЕ И КАРТИНКИ
        ========================================== */
     .form-group { margin-bottom: 12px; }
 
     .form-label {
-      display: block;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-size: 12px;
       color: var(--text-muted);
       margin-bottom: 5px;
@@ -346,8 +343,61 @@
       outline: none;
     }
     textarea:focus, input:focus, select:focus { border-color: var(--accent-start); }
-    textarea { resize: vertical; min-height: 84px; }
+    textarea { resize: vertical; min-height: 86px; }
 
+    /* Панель улучшенного распознавания вводимого текста */
+    .smart-analyzer-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #12151e;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 11px;
+      margin-top: 6px;
+      font-size: 11.5px;
+    }
+
+    .smart-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .smart-tag {
+      background: rgba(99, 102, 241, 0.14);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: #c7d2fe;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .smart-tag.gender-sync {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #e9d5ff;
+    }
+
+    .smart-clean-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 3px 9px;
+      border-radius: 5px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .smart-clean-btn:hover {
+      color: #fff;
+      border-color: var(--accent-start);
+    }
+
+    /* Загрузка изображений */
     .vision-upload-zone {
       border: 2px dashed var(--border);
       background: var(--bg-input);
@@ -364,12 +414,12 @@
       background: rgba(99, 102, 241, 0.08);
     }
 
-    .preview-list { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .preview-list { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; justify-content: center; }
 
     .preview-item {
       position: relative;
-      width: 68px;
-      height: 68px;
+      width: 72px;
+      height: 72px;
       border-radius: 6px;
       overflow: hidden;
       border: 1px solid var(--border);
@@ -380,7 +430,7 @@
       position: absolute;
       top: 2px;
       right: 2px;
-      background: rgba(0,0,0,0.75);
+      background: rgba(0,0,0,0.78);
       color: #fff;
       border: none;
       border-radius: 50%;
@@ -594,7 +644,42 @@
     .btn-mini:hover { color: #fff; border-color: var(--accent-start); }
 
     /* ==========================================
-       ГЕНЕРАТОР ПАРОЛЕЙ
+       ГЕНЕРАТОР ФОТО ПО ОПИСАНИЮ
+       ========================================== */
+    .img-gen-preview-box {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      margin-top: 14px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .img-gen-preview-box img {
+      max-width: 100%;
+      max-height: 480px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    .img-gen-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* ==========================================
+       ГЕНЕРАТОР ПАРОЛЕЙ И ИНСТРУКЦИИ
        ========================================== */
     .pw-display-box { display: flex; gap: 8px; margin-bottom: 12px; }
 
@@ -625,9 +710,6 @@
       margin-top: 12px;
     }
 
-    /* ==========================================
-       КРАСИВЫЙ РАЗДЕЛ ИНСТРУКЦИЙ НА САЙТЕ
-       ========================================== */
     .inst-hero {
       background: linear-gradient(135deg, rgba(99, 102, 241, 0.14), rgba(168, 85, 247, 0.14));
       border: 1px solid rgba(168, 85, 247, 0.35);
@@ -641,15 +723,9 @@
       font-weight: 700;
       color: #fff;
       margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
-    .inst-hero-sub {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
+    .inst-hero-sub { font-size: 13px; color: var(--text-muted); }
 
     .inst-features-grid {
       display: grid;
@@ -665,30 +741,11 @@
       padding: 14px;
     }
 
-    .inst-feature-icon {
-      font-size: 20px;
-      margin-bottom: 6px;
-      display: inline-block;
-    }
+    .inst-feature-icon { font-size: 20px; margin-bottom: 6px; display: inline-block; }
+    .inst-feature-card h4 { font-size: 13.5px; color: #fff; margin-bottom: 4px; }
+    .inst-feature-card p { font-size: 12px; color: var(--text-muted); line-height: 1.45; }
 
-    .inst-feature-card h4 {
-      font-size: 13.5px;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-
-    .inst-feature-card p {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.45;
-    }
-
-    .inst-steps-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
+    .inst-steps-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
 
     .inst-step-card {
       background: var(--bg-input);
@@ -715,22 +772,9 @@
       margin-top: 2px;
     }
 
-    .inst-step-body {
-      flex: 1;
-    }
-
-    .inst-step-body h3 {
-      font-size: 14px;
-      color: #fff;
-      margin-bottom: 5px;
-    }
-
-    .inst-step-body p {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
+    .inst-step-body { flex: 1; }
+    .inst-step-body h3 { font-size: 14px; color: #fff; margin-bottom: 5px; }
+    .inst-step-body p { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
     .inst-step-body ul {
       padding-left: 18px;
       color: var(--text-muted);
@@ -760,11 +804,6 @@
       font-size: 12px;
       color: #a5b4fc;
       margin-top: 6px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      overflow-x: auto;
     }
 
     .inst-faq-grid {
@@ -781,17 +820,8 @@
       border-radius: 8px;
       padding: 12px 14px;
     }
-
-    .inst-faq-item h4 {
-      font-size: 13px;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-
-    .inst-faq-item p {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
+    .inst-faq-item h4 { font-size: 13px; color: #fff; margin-bottom: 4px; }
+    .inst-faq-item p { font-size: 12px; color: var(--text-muted); }
 
     .hidden { display: none !important; }
 
@@ -811,7 +841,7 @@
          ========================================== -->
     <section id="sec-comments">
       <div class="card">
-        <h1 class="section-title">Генератор комментариев AI (Turbo)</h1>
+        <h1 class="section-title">Генератор комментариев AI (Turbo + Vision)</h1>
 
         <!-- Авторизация -->
         <div class="auth-bar">
@@ -821,7 +851,7 @@
           </div>
 
           <div class="api-key-wrap" id="api-key-container">
-            <input type="password" id="api-key-input" class="api-key-input" placeholder="API-ключ Pollinations...">
+            <input type="password" id="api-key-input" class="api-key-input" placeholder="API-ключ Pollinations (необязательно)...">
             <span id="key-saved-badge" class="saved-badge">✓ Сохранён</span>
             <a href="https://enter.pollinations.ai" target="_blank" rel="noopener" class="api-link">Получить ключ</a>
           </div>
@@ -830,31 +860,50 @@
         <!-- Верхние вкладки РАЗНОЙ формы -->
         <div class="top-tabs">
           <button type="button" class="tab-pill-round active" id="tab-mode-text">
-            <span>📝</span> Текст
+            <span>📝</span> Текст поста
           </button>
           <button type="button" class="tab-rect-stripe" id="tab-mode-vision">
-            <span>🖼️</span> Изображение
+            <span>🖼️</span> Комменты по фото (Vision)
+          </button>
+          <button type="button" class="tab-pill-round" id="tab-jump-imggen" style="border-style:dashed;">
+            <span>🎨</span> Создать фото по описанию
           </button>
         </div>
 
-        <!-- Загрузка картинок -->
+        <!-- Загрузка картинок (Vision) со встроенным авто-сжатием -->
         <div class="vision-upload-zone" id="vision-dropzone">
-          <div>Перетащите до 5 изображений сюда или <b>кликните для выбора</b></div>
-          <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Поддерживаются JPG, PNG, WEBP (требуется режим «С ключом»)</div>
+          <div>Перетащите до 5 фото сюда или <b>кликните для выбора</b></div>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Автоматическое сжатие фото включено (работает без ошибок с любыми размерами JPG, PNG, WEBP)</div>
           <input type="file" id="vision-file-input" accept="image/*" multiple class="hidden">
           <div class="preview-list" id="vision-previews"></div>
         </div>
 
-        <!-- Поле текста поста -->
+        <!-- Поле текста поста + Улучшенное распознавание вводимого текста -->
         <div class="form-group">
-          <label class="form-label" for="post-text">Текст поста или тема (ссылки из текста автоматически вырезаются и не попадают в комментарии):</label>
-          <textarea id="post-text" placeholder="Вставьте текст поста, новость или тему для комментирования..."></textarea>
+          <label class="form-label" for="post-text">
+            <span>Текст поста или тема (для фото — дополнительное описание, необязательно):</span>
+            <span id="char-counter" style="font-size:11px;">0 симв.</span>
+          </label>
+          <textarea id="post-text" placeholder="Вставьте любой скопированный пост (даже со ссылками, хештегами и мусором) — умный анализатор сам выделит суть..."></textarea>
+
+          <!-- Панель интеллектуального распознавания текста -->
+          <div class="smart-analyzer-bar">
+            <div class="smart-badges">
+              <span style="color:var(--text-muted);">🧠 Распознавание:</span>
+              <span class="smart-tag" id="smart-detected-type">Ожидание текста...</span>
+              <span class="smart-tag" id="smart-detected-topic">Тема: не задана</span>
+              <span class="smart-tag gender-sync" id="smart-gender-badge">Род и Имя: авто-согласование</span>
+            </div>
+            <button type="button" class="smart-clean-btn" id="btn-smart-format" title="Очистить лишние пробелы, ссылки, мусорные символы и улучшить читаемость">
+              ✨ Авто-очистка текста
+            </button>
+          </div>
         </div>
 
         <!-- Поле своего стиля -->
         <div class="form-group">
           <label class="form-label" for="custom-style">Свой стиль комментария (необязательно):</label>
-          <input type="text" id="custom-style" placeholder="Например: с лёгким юмором, от лица программиста, разговорный сленг...">
+          <input type="text" id="custom-style" placeholder="Например: с лёгким юмором, от лица эксперта, разговорный сленг...">
         </div>
 
         <!-- Компактные поля и 3 менюшки разной формы -->
@@ -890,11 +939,11 @@
           </div>
 
           <div class="menu-wrap">
-            <label class="form-label" for="author-gender">Пол (скругл. сверху)</label>
+            <label class="form-label" for="author-gender">Пол и род глаголов</label>
             <select id="author-gender" class="select-top-rounded">
-              <option value="any">Любой (случайно)</option>
-              <option value="male">Мужской род</option>
-              <option value="female">Женский род</option>
+              <option value="any">Любой (авто-род под имя)</option>
+              <option value="female">Женский (жен. имена + жен. род)</option>
+              <option value="male">Мужской (муж. имена + муж. род)</option>
             </select>
           </div>
         </div>
@@ -929,7 +978,7 @@
             <button type="button" class="log-clear-btn" id="btn-clear-log">Очистить лог</button>
           </div>
           <div class="log-body" id="gen-log-box">
-            <div class="log-entry info"><span class="log-time">[Система]</span> Движок Turbo готов к генерации.</div>
+            <div class="log-entry info"><span class="log-time">[Система]</span> Движок готов. Контроль женских/мужских имён и сжатие фото для Vision активны.</div>
           </div>
         </div>
       </div>
@@ -940,13 +989,78 @@
           <h2 style="font-size:15px; font-weight:600;">Список комментариев (<span id="comm-total-badge">0</span>)</h2>
         </div>
         <div id="comments-container" class="comments-list">
-          <div style="color:var(--text-muted); font-size:13px;">Введите тему поста выше и нажмите «Сгенерировать новые»...</div>
+          <div style="color:var(--text-muted); font-size:13px;">Введите тему поста или загрузите фото и нажмите «Сгенерировать новые»...</div>
         </div>
       </div>
     </section>
 
     <!-- ==========================================
-         РАЗДЕЛ 2: ГЕНЕРАТОР ПАРОЛЕЙ
+         РАЗДЕЛ 2: ГЕНЕРАТОР ФОТО ПО ОПИСАНИЮ (AI IMAGE)
+         ========================================== -->
+    <section id="sec-imggen" class="hidden">
+      <div class="card">
+        <h1 class="section-title">🎨 Генератор фото по описанию AI</h1>
+
+        <div class="form-group">
+          <label class="form-label" for="img-prompt-input">
+            <span>Опишите, какое фото нужно сгенерировать (на русском или английском):</span>
+          </label>
+          <textarea id="img-prompt-input" placeholder="Например: Уютное рабочее место программиста ночью, неоновая подсветка, чашка кофе, вид на ночной город из окна, фотореализм, 8k..."></textarea>
+        </div>
+
+        <div class="controls-grid">
+          <div class="menu-wrap">
+            <label class="form-label" for="img-aspect">Формат / Размер</label>
+            <select id="img-aspect" class="select-rect">
+              <option value="1024x1024" selected>Квадрат 1:1 (1024×1024)</option>
+              <option value="1280x720">Горизонтальное 16:9 (1280×720)</option>
+              <option value="720x1280">Вертикальное 9:16 Stories (720×1280)</option>
+            </select>
+          </div>
+
+          <div class="menu-wrap">
+            <label class="form-label" for="img-model">Модель генерации</label>
+            <select id="img-model" class="select-round">
+              <option value="flux" selected>Flux (Высокая детализация)</option>
+              <option value="turbo">Turbo (Максимальная скорость)</option>
+            </select>
+          </div>
+
+          <div class="menu-wrap">
+            <label class="form-label" for="img-style-preset">Художественный стиль</label>
+            <select id="img-style-preset" class="select-top-rounded">
+              <option value="photorealistic, 8k uhd, high quality">Фотореализм (8K DSLR)</option>
+              <option value="cinematic lighting, movie still, dramatic">Кинематографичный</option>
+              <option value="anime style, studio ghibli, vibrant">Аниме / Иллюстрация</option>
+              <option value="3d render, unreal engine 5, octane render">3D Рендер</option>
+              <option value="">Без дополнительного стиля</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions-row">
+          <button type="button" class="btn-primary" id="btn-create-image">🎨 Сгенерировать фото</button>
+          <button type="button" class="btn-secondary" id="btn-enhance-img-prompt">✨ Улучшить описание через ИИ</button>
+        </div>
+
+        <div id="img-status-box" class="status-line"></div>
+
+        <div class="img-gen-preview-box" id="img-preview-Wrapper">
+          <div style="color:var(--text-muted); font-size:13px;" id="img-placeholder-text">
+            Здесь появится сгенерированное изображение...
+          </div>
+          <img id="generated-img-el" class="hidden" alt="Generated AI Photo" crossorigin="anonymous">
+
+          <div class="img-gen-actions hidden" id="img-ready-actions">
+            <button type="button" class="btn-primary" id="btn-use-img-for-comments">💬 Написать комменты к этому фото</button>
+            <button type="button" class="btn-secondary" id="btn-download-img">💾 Скачать фото</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         РАЗДЕЛ 3: ГЕНЕРАТОР ПАРОЛЕЙ
          ========================================== -->
     <section id="sec-passwords" class="hidden">
       <div class="card">
@@ -965,7 +1079,7 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label">Длина пароля: <b id="pw-len-val" style="color:#fff;">16</b> символов</label>
+          <label class="form-label"><span>Длина пароля: <b id="pw-len-val" style="color:#fff;">16</b> символов</span></label>
           <input type="range" id="pw-len-slider" min="4" max="64" value="16">
         </div>
 
@@ -985,13 +1099,12 @@
     </section>
 
     <!-- ==========================================
-         РАЗДЕЛ 3: КРАСИВЫЕ ИНСТРУКЦИИ ПРЯМО НА САЙТЕ
+         РАЗДЕЛ 4: КРАСИВЫЕ ИНСТРУКЦИИ ПРЯМО НА САЙТЕ
          ========================================== -->
     <section id="sec-instructions" class="hidden">
       <div class="card">
         <h1 class="section-title">Полное руководство: Как пользоваться и запустить свой сайт</h1>
 
-        <!-- Приветственный баннер -->
         <div class="inst-hero">
           <div class="inst-hero-title">🚀 Всё работает в одном файле index.html</div>
           <div class="inst-hero-sub">
@@ -999,22 +1112,21 @@
           </div>
         </div>
 
-        <!-- Карточки ключевых фишек -->
         <div class="inst-features-grid">
           <div class="inst-feature-card">
-            <span class="inst-feature-icon">⚡</span>
-            <h4>Турбо-режим (до 50 шт.)</h4>
-            <p>В режиме «С ключом» запросы разбиваются на параллельные потоки — все 50 комментариев создаются в 3 раза быстрее без пауз.</p>
+            <span class="inst-feature-icon">👩👨</span>
+            <h4>Согласование имён и рода</h4>
+            <p>При выборе женского пола ИИ берёт только женские имена и пишет строго с женскими окончаниями глаголов («увидела», «согласна»).</p>
           </div>
           <div class="inst-feature-card">
             <span class="inst-feature-icon">🖼️</span>
-            <h4>Распознавание фото (Vision)</h4>
-            <p>Перетащите до 5 картинок во вкладке «Изображение», и нейросеть напишет живые комментарии по деталям на снимках.</p>
+            <h4>Комменты по фото без ошибок</h4>
+            <p>Загружаемые фотографии автоматически сжимаются в браузере, поэтому Vision-модель распознаёт любые снимки быстро и без сбоев.</p>
           </div>
           <div class="inst-feature-card">
-            <span class="inst-feature-icon">🛡️</span>
-            <h4>Чистый текст без мусора</h4>
-            <p>Все ссылки из исходного поста и технические логи ИИ автоматически вырезаются — в список попадают только чистые комментарии.</p>
+            <span class="inst-feature-icon">🎨</span>
+            <h4>Генерация фото + Умный текст</h4>
+            <p>Создавайте уникальные фотографии по текстовому описанию и сразу генерируйте к ним комментарии в один клик.</p>
           </div>
         </div>
 
@@ -1022,13 +1134,12 @@
           📘 Пошаговая инструкция: Как сделать свой сайт и выложить на GitHub Pages
         </h2>
 
-        <!-- Пошаговый таймлайн -->
         <div class="inst-steps-list">
           <div class="inst-step-card">
             <div class="inst-step-num">1</div>
             <div class="inst-step-body">
               <h3>Создайте аккаунт на GitHub</h3>
-              <p>Перейдите на <b>github.com</b> и зарегистрируйтесь (Sign Up). Если аккаунт уже есть — просто войдите в него. Обязательно подтвердите почту, иначе функция публикации сайтов GitHub Pages будет неактивна.</p>
+              <p>Перейдите на <b>github.com</b> и зарегистрируйтесь (Sign Up). Обязательно подтвердите свою электронную почту.</p>
             </div>
           </div>
 
@@ -1036,11 +1147,11 @@
             <div class="inst-step-num">2</div>
             <div class="inst-step-body">
               <h3>Создайте новый публичный репозиторий</h3>
-              <p>В правом верхнем углу нажмите на значок <span class="kbd-badge">+</span> и выберите <span class="kbd-badge">New repository</span>:</p>
+              <p>В правом верхнем углу нажмите <span class="kbd-badge">+</span> → <span class="kbd-badge">New repository</span>:</p>
               <ul>
-                <li><b>Repository name:</b> придумайте любое название латиницей (например, <span class="kbd-badge">my-ai-site</span>).</li>
-                <li><b>Public (Публичный):</b> обязательно оставьте галочку на <span class="kbd-badge">Public</span> (для бесплатного GitHub Pages репозиторий должен быть открытым).</li>
-                <li>Поставьте галочку <span class="kbd-badge">Add a README file</span> и нажмите зелёную кнопку <span class="kbd-badge">Create repository</span> внизу.</li>
+                <li><b>Repository name:</b> укажите название латиницей (например, <span class="kbd-badge">ai-comments</span>).</li>
+                <li><b>Public:</b> обязательно выберите публичный доступ <span class="kbd-badge">Public</span>.</li>
+                <li>Поставьте галочку <span class="kbd-badge">Add a README file</span> и нажмите <span class="kbd-badge">Create repository</span>.</li>
               </ul>
             </div>
           </div>
@@ -1049,12 +1160,7 @@
             <div class="inst-step-num">3</div>
             <div class="inst-step-body">
               <h3>Загрузите файл index.html</h3>
-              <p>На странице вашего нового репозитория нажмите кнопку <span class="kbd-badge">Add file</span> → <span class="kbd-badge">Upload files</span>:</p>
-              <ul>
-                <li>Перетащите ваш файл <span class="kbd-badge">index.html</span> в центральное окно браузера (название файла должно быть строго <code>index.html</code> маленькими буквами!).</li>
-                <li>Подождите пару секунд, пока файл загрузится в список.</li>
-                <li>Нажмите зелёную кнопку <span class="kbd-badge">Commit changes</span> внизу страницы.</li>
-              </ul>
+              <p>В репозитории нажмите <span class="kbd-badge">Add file</span> → <span class="kbd-badge">Upload files</span>, перетащите файл <span class="kbd-badge">index.html</span> и нажмите зелёную кнопку <span class="kbd-badge">Commit changes</span>.</p>
             </div>
           </div>
 
@@ -1062,68 +1168,14 @@
             <div class="inst-step-num">4</div>
             <div class="inst-step-body">
               <h3>Включите хостинг GitHub Pages</h3>
-              <p>Теперь превратим репозиторий в работающий сайт:</p>
-              <ul>
-                <li>В верхнем меню репозитория откройте вкладку <span class="kbd-badge">Settings</span> (Настройки).</li>
-                <li>В левой колонке найдите раздел <span class="kbd-badge">Pages</span>.</li>
-                <li>В блоке <b>Build and deployment</b> (подпункт <b>Branch</b>) переключите кнопку с <span class="kbd-badge">None</span> на <span class="kbd-badge">main</span> (или <code>master</code>) и нажмите кнопку <span class="kbd-badge">Save</span>.</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="inst-step-card">
-            <div class="inst-step-num">5</div>
-            <div class="inst-step-body">
-              <h3>Получите готовую ссылку на ваш сайт!</h3>
-              <p>Подождите 1–2 минуты и обновите страницу <span class="kbd-badge">Settings → Pages</span>. Сверху появится плашка <b>«Your site is live at...»</b> с вашей персональной ссылкой вида:</p>
-              <div class="code-snippet">
-                <span>https://ваш-логин.github.io/название-репозитория/</span>
-              </div>
+              <p>Откройте вкладку <span class="kbd-badge">Settings</span> → слева раздел <span class="kbd-badge">Pages</span> → в пункте <b>Branch</b> выберите <span class="kbd-badge">main</span> и нажмите <span class="kbd-badge">Save</span>. Через 1–2 минуты ваш сайт заработает по адресу:</p>
+              <div class="code-snippet">https://ваш-логин.github.io/название-репозитория/</div>
             </div>
           </div>
         </div>
 
-        <h2 style="font-size:16px; font-weight:700; margin-bottom:10px; color:#fff;">
-          🔑 Как получить бесплатный API-ключ Pollinations (для режима «С ключом»)
-        </h2>
-
-        <div class="inst-steps-list">
-          <div class="inst-step-card">
-            <div class="inst-step-num">★</div>
-            <div class="inst-step-body">
-              <h3>Быстрая авторизация на enter.pollinations.ai</h3>
-              <ul>
-                <li>Нажмите ссылку <b>«Получить ключ»</b> в верхней панели генератора (или перейдите на <code>enter.pollinations.ai</code>).</li>
-                <li>Войдите через свой аккаунт GitHub в 1 клик.</li>
-                <li>Скопируйте сгенерированный токен (API Key), переключите на сайте кнопку в режим <span class="kbd-badge">С ключом (Быстро ⚡)</span> и вставьте ключ в поле.</li>
-                <li>Ключ автоматически сохранится в вашем браузере (<code>localStorage</code>) — вводить его заново при следующем входе не нужно!</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Частые вопросы (FAQ) -->
-        <h2 style="font-size:15px; font-weight:700; margin-bottom:8px; color:#fff;">💡 Частые вопросы и полезные советы</h2>
-        <div class="inst-faq-grid">
-          <div class="inst-faq-item">
-            <h4>Почему на GitHub ошибка 404 после включения Pages?</h4>
-            <p>Проверьте, что файл называется строго <code>index.html</code> (с маленькой буквы), и подождите 1–2 минуты, пока сервер GitHub соберёт страницу.</p>
-          </div>
-          <div class="inst-faq-item">
-            <h4>Как обновить сайт, если я изменил код?</h4>
-            <p>Зайдите в репозиторий на GitHub, нажмите на файл <code>index.html</code> → значок карандаша (Edit), вставьте новый код и нажмите <b>Commit changes</b>.</p>
-          </div>
-          <div class="inst-faq-item">
-            <h4>Зачем нужен режим «Без ключа (15с)»?</h4>
-            <p>Он позволяет пользоваться текстовым генератором вообще без регистрации, но сервер Pollinations требует паузу 15 секунд между бесплатными анонимными запросами.</p>
-          </div>
-        </div>
-
-        <div style="margin-top: 18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-          <button type="button" class="btn-primary" id="btn-back-to-gen">← Перейти к генератору комментариев</button>
-          <a href="https://telegra.ph/Kak-sdelat-svoj-sajt-i-vylozhit-na-GitHub-10-15" target="_blank" rel="noopener noreferrer" style="font-size:12px; color:var(--text-muted); text-decoration:underline;">
-            Версия инструкции со скриншотами в Telegra.ph ↗
-          </a>
+        <div style="margin-top: 18px;">
+          <button type="button" class="btn-primary" id="btn-back-to-gen">← Вернуться к генератору комментариев</button>
         </div>
       </div>
     </section>
@@ -1132,25 +1184,23 @@
 
   <!-- БОКОВОЕ МЕНЮ СПРАВА -->
   <aside class="sidebar-right">
-    <!-- Навигация по разделам (Комментарии / Пароли / Инструкции) -->
     <div class="card">
       <div class="nav-menu">
         <button type="button" class="nav-btn active" id="nav-to-comments">💬 Генератор комментариев</button>
+        <button type="button" class="nav-btn" id="nav-to-imggen">🎨 Генератор фото AI</button>
         <button type="button" class="nav-btn" id="nav-to-passwords">🔐 Генератор паролей</button>
         <button type="button" class="nav-btn" id="nav-to-instructions">📖 Инструкции</button>
       </div>
     </div>
 
-    <!-- Отдельный блок справа, открывающий красивые встроенные инструкции на сайте -->
     <div class="guide-side-box">
       <div class="guide-side-title">📘 Инструкция по GitHub</div>
-      <div class="guide-side-desc">Пошаговый гайд прямо на сайте: как выложить свой index.html на GitHub Pages и ускорить генерацию.</div>
+      <div class="guide-side-desc">Пошаговый гайд прямо на сайте: как выложить свой index.html на GitHub Pages и ускорить работу.</div>
       <button type="button" class="guide-side-btn" id="btn-side-open-guide">
         📖 Открыть инструкцию на сайте
       </button>
     </div>
 
-    <!-- Онлайн-счётчик вкладок -->
     <div class="card online-box">
       <span>Активных вкладок:</span>
       <div class="online-indicator">
@@ -1159,7 +1209,6 @@
       </div>
     </div>
 
-    <!-- Телеграм канал проекта -->
     <a href="https://t.me/pytayus_zarabotat" target="_blank" rel="noopener noreferrer" class="tg-promo">
       <div class="tg-promo-title">
         <span>Телеграм канал проекта</span>
@@ -1172,7 +1221,7 @@
 
 <script>
   /* =========================================================================
-     ПУЛ РАКУРСОВ ДЛЯ УНИКАЛЬНОСТИ КОММЕНТАРИЕВ (ANGLES)
+     ПУЛ РАКУРСОВ И БАЗЫ ИМЁН ПО ПОЛУ (ДЛЯ 100% РАЗЛИЧЕНИЯ ЖЕНСКИХ И МУЖСКИХ)
      ========================================================================= */
   const ANGLES = [
     "выдели главную пользу",
@@ -1184,6 +1233,11 @@
     "акцент на главном выводе",
     "свежий взгляд на тему"
   ];
+
+  const FEMALE_NAMES_RU = ['Анна', 'Мария', 'Екатерина', 'Алина', 'Дарья', 'Ольга', 'Елена', 'Ксения', 'Полина', 'Виктория', 'Наталья', 'Юлия', 'Светлана', 'Марина', 'Татьяна'];
+  const MALE_NAMES_RU = ['Алексей', 'Дмитрий', 'Иван', 'Максим', 'Сергей', 'Андрей', 'Артём', 'Михаил', 'Никита', 'Денис', 'Роман', 'Егор', 'Кирилл', 'Владимир', 'Павел'];
+  const FEMALE_NICKS_EN = ['anna_belle', 'kate_vibes', 'mari_glow', 'alina_sky', 'daria_art', 'olga_sun', 'lena_dream', 'polina_fox', 'vika_star', 'julia_wave'];
+  const MALE_NICKS_EN = ['alex_pro', 'dmitry_dev', 'max_power', 'ivan_tech', 'sergey_fit', 'artem_core', 'nick_storm', 'denis_way', 'roman_x', 'pavel_one'];
 
   function safeGetStorage(key, fallback) {
     try {
@@ -1203,11 +1257,17 @@
     imagesBase64: [],
     comments: [],
     lastRequestTime: 0,
-    isGenerating: false
+    isGenerating: false,
+    detectedContext: {
+      type: 'Общий пост',
+      keywords: [],
+      cleanedText: ''
+    },
+    lastGeneratedImageUrl: ''
   };
 
   /* =========================================================================
-     ЛОГИРОВАНИЕ В РЕАЛЬНОМ ВРЕМЕНИ (СТРОГО В #gen-log-box)
+     ЛОГИРОВАНИЕ В РЕАЛЬНОМ ВРЕМЕНИ
      ========================================================================= */
   const logBox = document.getElementById('gen-log-box');
 
@@ -1243,43 +1303,177 @@
   });
 
   /* =========================================================================
-     УДАЛЕНИЕ ССЫЛОК И ФИЛЬТРАЦИЯ ТЕХНИЧЕСКОГО МУСОРА / ЛОГОВ ИЗ КОММЕНТАРИЕВ
+     УЛУЧШЕННОЕ РАСПОЗНАВАНИЕ И ОЧИСТКА ВВОДИМОГО ТЕКСТА ПОЛЬЗОВАТЕЛЯ
      ========================================================================= */
+  const postTextInput = document.getElementById('post-text');
+  const charCounterEl = document.getElementById('char-counter');
+  const smartTypeEl = document.getElementById('smart-detected-type');
+  const smartTopicEl = document.getElementById('smart-detected-topic');
+  const smartGenderBadge = document.getElementById('smart-gender-badge');
+
   function extractLinks(text) {
+    if (!text) return { cleanedText: '', links: [] };
     const urlRegex = /(?:https?:\/\/|www\.|t\.me\/|[a-zA-Z0-9-]+\.(?:ru|com|org|net|io|me|ai|рф)\b)[^\s<>"')\]]*/gi;
     const links = [];
-    const cleanedText = text.replace(urlRegex, function(match) {
-      links.push(match);
-      return '';
-    }).replace(/\(\s*\)/g, '').replace(/\s{2,}/g, ' ').trim();
+    const cleanedText = text
+      // Убираем невидимые zero-width символы и мусор из соцсетей
+      .replace(/[\u200B-\u200D\uFEFF]/g, '')
+      .replace(urlRegex, function(match) {
+        links.push(match);
+        return '';
+      })
+      .replace(/\(\s*\)/g, '')
+      .replace(/[ \t]{2,}/g, ' ')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
     return { cleanedText: cleanedText, links: links };
   }
 
-  // Проверяет, не является ли строка техническим логом, куском JSON или мета-текстом ИИ
+  // Интеллектуальный анализ вводимого текста (распознаёт тип поста, ключевые слова и контекст)
+  function analyzeUserInput(rawText) {
+    const extracted = extractLinks(rawText);
+    const clean = extracted.cleanedText;
+    charCounterEl.textContent = clean.length + ' симв.';
+
+    if (!clean) {
+      smartTypeEl.textContent = state.inputTab === 'vision' ? 'Режим: Анализ по фото' : 'Ожидание текста...';
+      smartTopicEl.textContent = 'Тема: авто';
+      state.detectedContext = { type: 'Общий пост', keywords: [], cleanedText: '' };
+      return state.detectedContext;
+    }
+
+    const lower = clean.toLowerCase();
+    let postType = 'Информационный пост';
+
+    if (/\?/.test(clean) && /(как думаете|а вы|согласны|что выберете|кто пробовал|подскажите|ваш опыт)/i.test(lower)) {
+      postType = 'Вопрос / Опрос аудитории';
+    } else if (/(скидк|акци|купить|цена|руб|обзор|тест|распаковк|товар|бренд)/i.test(lower)) {
+      postType = 'Обзор / Продукт';
+    } else if (/(гайд|инструкци|шаг|способ|лайфхак|совет|как сделать|разбор|обучен)/i.test(lower)) {
+      postType = 'Полезный гайд / Советы';
+    } else if (/(сегодня я|моя история|случилось|пережил|делюсь|мой опыт|расскажу как)/i.test(lower)) {
+      postType = 'Личная история / Опыт';
+    } else if (/(новост|вышел|анонс|запустил|событи|обновлен|релиз)/i.test(lower)) {
+      postType = 'Новость / Релиз';
+    } else if (/(хаха|юмор|мем|шутк|смешн|прикол)/i.test(lower)) {
+      postType = 'Юмор / Развлечение';
+    }
+
+    // Извлекаем ключевые слова (существительные/термины длиннее 4 букв)
+    const stopWords = new Set(['этого', 'очень', 'когда', 'чтобы', 'которые', 'такой', 'только', 'всегда', 'можно', 'нужно', 'просто', 'сейчас', 'после', 'через', 'более', 'менее', 'будет', 'были', 'если', 'даже']);
+    const words = clean
+      .replace(/[^a-zA-Zа-яА-ЯёЁ0-9\s-]/g, ' ')
+      .split(/\s+/)
+      .map(function(w) { return w.toLowerCase(); })
+      .filter(function(w) { return w.length >= 5 && !stopWords.has(w); });
+
+    const freq = {};
+    words.forEach(function(w) { freq[w] = (freq[w] || 0) + 1; });
+    const topKeywords = Object.keys(freq)
+      .sort(function(a, b) { return freq[b] - freq[a]; })
+      .slice(0, 3);
+
+    smartTypeEl.textContent = 'Тип: ' + postType;
+    smartTopicEl.textContent = topKeywords.length > 0
+      ? ('Ключи: ' + topKeywords.join(', '))
+      : 'Контекст распознан';
+
+    state.detectedContext = {
+      type: postType,
+      keywords: topKeywords,
+      cleanedText: clean
+    };
+    return state.detectedContext;
+  }
+
+  postTextInput.addEventListener('input', function() {
+    analyzeUserInput(postTextInput.value);
+  });
+
+  // Кнопка «Авто-очистка текста»
+  document.getElementById('btn-smart-format').addEventListener('click', function() {
+    const raw = postTextInput.value;
+    if (!raw.trim()) return;
+    const extracted = extractLinks(raw);
+    postTextInput.value = extracted.cleanedText;
+    analyzeUserInput(postTextInput.value);
+    addLog('✨ Выполнена умная очистка введённого текста (удалены ссылки, лишние пробелы и спецсимволы).', 'ok');
+  });
+
+  /* =========================================================================
+     ФИЛЬТРАЦИЯ МУСОРА И ПРОВЕРКА РОДА/ИМЕНИ НА ВЫХОДЕ
+     ========================================================================= */
   function isGarbageOrLogLine(str) {
     if (!str) return true;
     const s = str.trim();
     if (s.length < 4) return true;
-
-    // 1. Отсекаем любые JSON-объекты, SSE-данные и технические поля API
     if (/^[\{\[\]\}]/.test(s) || /[\{\}\[\]]$/.test(s)) return true;
     if (/^data:\s*/i.test(s) || s === '[DONE]') return true;
     if (/"(?:id|object|created|model|choices|delta|message|role|content|finish_reason|usage|prompt_tokens|seed|temperature)"\s*:/i.test(s)) return true;
-
-    // 2. Отсекаем строки с таймштампами логов [12:34:56] или системными тегами
     if (/^\[\d{1,2}:\d{2}(?::\d{2})?\]/.test(s)) return true;
     if (/^\[(?:Система|System|Log|Info|Error|Warn)\]/i.test(s)) return true;
     if (/^(?:⏳|⚡|🚀|🔄|📡|📦|🚫|❌|🎉|📋|💾)\s*(?:Генерация|Ожидание|Запрос|Параметры|Слот|Догенерация|Старт|Турбо)/i.test(s)) return true;
-
-    // 3. Отсекаем эхо системного промта и вводные фразы нейросети
     if (/^(?:вот\s+\d+|конечно[,!]|список\s+комментариев|комментарии\s+к\s+посту|правила:|углы:|ракурсы:|формат:|требования:|примечание:|выдай\s+ровно)/i.test(s)) return true;
     if (/^(?:комментарий|вариант)\s*#?\d+\s*[:\-]?$/i.test(s)) return true;
     if (/^[|\-=_*#~]{2,}$/.test(s)) return true;
-
     return false;
   }
 
-  // Очищает текст комментария от ссылок, префиксов ("Комментарий 1:"), кавычек и мусора
+  // Гарантирует, что если выбраны имена и пол, имя в начале строки на 100% соответствует полу
+  function enforceGenderAndNameConsistency(commentText) {
+    const authorMode = elAuthorName.value;
+    const genderMode = elAuthorGender.value;
+
+    if (authorMode === 'none') {
+      // Убираем имя, если ИИ случайно его добавил
+      return commentText.replace(/^[А-ЯЁA-Z][а-яёa-z0-9_]{1,16}\s*:\s*/u, '');
+    }
+
+    // Проверяем, есть ли уже имя через двоеточие
+    const nameMatch = commentText.match(/^([А-ЯЁA-Zа-яёa-z0-9_]{2,18})\s*:\s*(.+)$/u);
+    let bodyText = nameMatch ? nameMatch[2].trim() : commentText;
+
+    // Подбираем гарантированно правильное имя под выбранный пол или определяем пол по окончаниям глаголов в тексте
+    let detectedGender = genderMode;
+    if (detectedGender === 'any') {
+      if (/\b(увидела|поняла|согласна|решила|попробовала|купила|думала|рада|сама|моя)\b/i.test(bodyText)) {
+        detectedGender = 'female';
+      } else if (/\b(увидел|понял|согласен|решил|попробовал|купил|думал|рад|сам)\b/i.test(bodyText)) {
+        detectedGender = 'male';
+      } else {
+        detectedGender = Math.random() > 0.5 ? 'female' : 'male';
+      }
+    }
+
+    let chosenName = '';
+    if (authorMode === 'ru') {
+      const pool = detectedGender === 'female' ? FEMALE_NAMES_RU : MALE_NAMES_RU;
+      chosenName = pool[Math.floor(Math.random() * pool.length)];
+    } else if (authorMode === 'en') {
+      const pool = detectedGender === 'female' ? FEMALE_NICKS_EN : MALE_NICKS_EN;
+      chosenName = pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    // Если в тексте были типичные ошибки рода при выбранном женском/мужском поле — мягко корректируем частые краткие формы
+    if (detectedGender === 'female') {
+      bodyText = bodyText
+        .replace(/\bя согласен\b/gi, 'я согласна')
+        .replace(/\bя рад\b/gi, 'я рада')
+        .replace(/\bсам пробовал\b/gi, 'сама пробовала')
+        .replace(/\bрешил написать\b/gi, 'решила написать')
+        .replace(/\bувидел пост\b/gi, 'увидела пост');
+    } else if (detectedGender === 'male') {
+      bodyText = bodyText
+        .replace(/\bя согласна\b/gi, 'я согласен')
+        .replace(/\bя рада\b/gi, 'я рад')
+        .replace(/\bсама пробовала\b/gi, 'сам пробовал')
+        .replace(/\bрешила написать\b/gi, 'решил написать')
+        .replace(/\bувидела пост\b/gi, 'увидел пост');
+    }
+
+    return chosenName ? (chosenName + ': ' + bodyText) : bodyText;
+  }
+
   function sanitizeCommentText(rawText) {
     if (!rawText) return '';
     let s = String(rawText)
@@ -1293,7 +1487,7 @@
       .trim();
 
     if (isGarbageOrLogLine(s)) return '';
-    return s;
+    return enforceGenderAndNameConsistency(s);
   }
 
   function linkify(safeText) {
@@ -1318,6 +1512,18 @@
   const elChkEmoji = document.getElementById('chk-emoji');
   const elChkPositive = document.getElementById('chk-positive');
 
+  function updateGenderSyncBadge() {
+    const g = elAuthorGender.value;
+    const n = elAuthorName.value;
+    if (g === 'female') {
+      smartGenderBadge.textContent = '👩 Строго женский род' + (n !== 'none' ? ' + жен. имена' : '');
+    } else if (g === 'male') {
+      smartGenderBadge.textContent = '👨 Строго мужской род' + (n !== 'none' ? ' + муж. имена' : '');
+    } else {
+      smartGenderBadge.textContent = '👩👨 Авто-согласование рода и имени';
+    }
+  }
+
   function loadSettings() {
     elApiKey.value = state.apiKey;
     if (state.apiKey) elKeySaved.classList.add('show');
@@ -1333,6 +1539,7 @@
 
     updateAuthUI();
     updateSentUI();
+    updateGenderSyncBadge();
   }
 
   function saveSettings() {
@@ -1344,6 +1551,7 @@
     safeSetStorage('cg_authorGender', elAuthorGender.value);
     safeSetStorage('cg_chkEmoji', String(elChkEmoji.checked));
     safeSetStorage('cg_chkPositive', String(elChkPositive.checked));
+    updateGenderSyncBadge();
   }
 
   [elCustomStyle, elCommCount, elSentMode, elCustomSentCount, elAuthorName, elAuthorGender, elChkEmoji, elChkPositive].forEach(function(el) {
@@ -1380,14 +1588,15 @@
   document.getElementById('btn-auth-key').addEventListener('click', function() {
     state.authMode = 'key';
     updateAuthUI();
-    addLog('Режим: С ключом (Турбо-параллельная генерация + поддержка картинок).', 'info');
+    addLog('Режим: С ключом (Турбо-параллельная генерация).', 'info');
   });
 
   /* =========================================================================
-     ВКЛАДКИ ТЕКСТ / ИЗОБРАЖЕНИЕ И ЗАГРУЗКА ФАЙЛОВ
+     АВТО-СЖАТИЕ КАРТИНОК ДЛЯ VISION (ИСПРАВЛЕНИЕ ОШИБКИ ГЕНЕРАЦИИ ПО ФОТО)
      ========================================================================= */
   const tabText = document.getElementById('tab-mode-text');
   const tabVision = document.getElementById('tab-mode-vision');
+  const tabJumpImgGen = document.getElementById('tab-jump-imggen');
   const dropzone = document.getElementById('vision-dropzone');
   const fileInput = document.getElementById('vision-file-input');
   const previewsBox = document.getElementById('vision-previews');
@@ -1397,7 +1606,8 @@
     tabText.classList.add('active');
     tabVision.classList.remove('active');
     dropzone.classList.remove('active');
-    addLog('Вкладка переключена: Текст', 'info');
+    analyzeUserInput(postTextInput.value);
+    addLog('Вкладка переключена: Текст поста', 'info');
   });
 
   tabVision.addEventListener('click', function() {
@@ -1405,7 +1615,8 @@
     tabVision.classList.add('active');
     tabText.classList.remove('active');
     dropzone.classList.add('active');
-    addLog('Вкладка переключена: Изображение (Vision)', 'info');
+    analyzeUserInput(postTextInput.value);
+    addLog('Вкладка переключена: Комменты по фото (Vision со сжатием)', 'info');
   });
 
   dropzone.addEventListener('click', function(e) {
@@ -1433,7 +1644,42 @@
     fileInput.value = '';
   });
 
-  function handleFiles(fileList) {
+  // Сжимает изображение через Canvas до 800px JPEG (0.78), чтобы API Vision не выдавал ошибку
+  function compressImageFile(file) {
+    return new Promise(function(resolve, reject) {
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const img = new Image();
+        img.onload = function() {
+          const maxDim = 800;
+          let w = img.width;
+          let height = img.height;
+          if (w > maxDim || height > maxDim) {
+            if (w > height) {
+              height = Math.round((height * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / height);
+              height = maxDim;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, height);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.78);
+          resolve(compressedDataUrl);
+        };
+        img.onerror = reject;
+        img.src = ev.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function handleFiles(fileList) {
     const files = Array.from(fileList || []);
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
@@ -1442,15 +1688,17 @@
         addLog('Достигнут лимит 5 изображений.', 'warn');
         break;
       }
-      const reader = new FileReader();
-      reader.onload = function(ev) {
+      try {
+        const compressedB64 = await compressImageFile(file);
         if (state.imagesBase64.length < 5) {
-          state.imagesBase64.push(ev.target.result);
-          addLog('Добавлена картинка #' + state.imagesBase64.length + ' (' + file.name + ')', 'ok');
+          state.imagesBase64.push(compressedB64);
+          const sizeKb = Math.round((compressedB64.length * 0.75) / 1024);
+          addLog('🖼️ Фото #' + state.imagesBase64.length + ' оптимизировано (' + sizeKb + ' КБ) и готово к анализу.', 'ok');
           renderImagePreviews();
         }
-      };
-      reader.readAsDataURL(file);
+      } catch (err) {
+        addLog('Ошибка чтения файла ' + file.name, 'err');
+      }
     }
   }
 
@@ -1476,7 +1724,7 @@
   }
 
   /* =========================================================================
-     УЛЬТРА-ЧИСТЫЙ СИСТЕМНЫЙ ПРОМТ
+     СБОРКА СИСТЕМНОГО ПРОМТА С УЧЁТОМ ЖЕНСКИХ/МУЖСКИХ ИМЁН И КОНТЕКСТА
      ========================================================================= */
   function buildSystemPrompt(count, chosenAngles) {
     const sentMode = elSentMode.value;
@@ -1485,31 +1733,38 @@
     else if (sentMode === 'custom') sentRule = (Math.min(10, Math.max(1, parseInt(elCustomSentCount.value, 10) || 2))) + ' предл.';
     else sentRule = sentMode + ' предл.';
 
-    const authorMode = elAuthorName.value;
-    let nameRule = 'без имён в начале';
-    if (authorMode === 'ru') nameRule = 'в начале русское имя и двоеточие (например, Анна: текст)';
-    if (authorMode === 'en') nameRule = 'в начале англ. ник и двоеточие (например, user_01: текст)';
-
     const gender = elAuthorGender.value;
-    let genderRule = 'чередуй мужской и женский род';
-    if (gender === 'male') genderRule = 'строго мужской род';
-    if (gender === 'female') genderRule = 'строго женский род';
+    let genderRule = '';
+    if (gender === 'female') {
+      genderRule = 'СТРОГО ЖЕНСКИЙ РОД: все комментарии пиши от лица женщины, используй ТОЛЬКО женские окончания глаголов и прилагательных в прошедшем времени (я увидела, заметила, согласна, решила, рада, попробовала).';
+    } else if (gender === 'male') {
+      genderRule = 'СТРОГО МУЖСКОЙ РОД: все комментарии пиши от лица мужчины, используй ТОЛЬКО мужские окончания глаголов и прилагательных (я увидел, заметил, согласен, решил, рад, попробовал).';
+    } else {
+      genderRule = 'Чередуй мужской и женский род от комментария к комментарию (строго согласуя род глаголов внутри каждого отдельного комментария).';
+    }
 
-    const emojiRule = elChkEmoji.checked ? '1-2 смайлика' : 'строго без смайликов';
-    const toneRule = elChkPositive.checked ? 'позитивный тон' : 'естественный разговорный тон';
+    const emojiRule = elChkEmoji.checked ? '1-2 уместных смайлика' : 'строго без смайликов';
+    const toneRule = elChkPositive.checked ? 'доброжелательный позитивный тон' : 'естественный разговорный тон соцсетей';
     const customStyle = elCustomStyle.value.trim();
 
+    const ctx = state.detectedContext;
+    const contextHint = ctx && ctx.type
+      ? ('Тип поста: ' + ctx.type + (ctx.keywords.length ? (', ключевые темы: ' + ctx.keywords.join(', ')) : '') + '.')
+      : '';
+
     return [
-      'Ты пишешь живые комментарии для соцсетей на русском языке.',
-      'Задача: напиши РОВНО ' + count + ' разных комментариев к посту пользователя.',
-      'СТРОГИЙ ФОРМАТ ВЫВОДА: Выводи ТОЛЬКО сами комментарии, разделяя их символами ||| (три вертикальные черты). Запрещено писать вводные фразы ("Вот комментарии:"), нумерацию, ссылки и любые пояснения.',
-      'Требования к каждому комментарию: ' + sentRule + ', ' + nameRule + ', ' + genderRule + ', ' + emojiRule + ', ' + toneRule + (customStyle ? (', стиль: ' + customStyle) : '') + '.',
+      'Ты пишешь живые, естественные комментарии реальных людей для соцсетей на русском языке.',
+      'Задача: напиши РОВНО ' + count + ' разных комментариев.',
+      contextHint,
+      genderRule,
+      'СТРОГИЙ ФОРМАТ: Выводи только текст самих комментариев (без имён в начале — имена система подставит сама!), разделяя каждый комментарий символами ||| (три вертикальные черты). Запрещено писать нумерацию, ссылки и вводные фразы.',
+      'Параметры: ' + sentRule + ', ' + emojiRule + ', ' + toneRule + (customStyle ? (', стиль: ' + customStyle) : '') + '.',
       'Смысловые акценты: ' + chosenAngles.join(', ') + '.'
-    ].join('\n');
+    ].filter(Boolean).join('\n');
   }
 
   /* =========================================================================
-     ПРОВЕРКА ЛИМИТА 15 СЕКУНД (ТОЛЬКО ДЛЯ РЕЖИМА БЕЗ КЛЮЧА)
+     ПРОВЕРКА ЛИМИТА 15 СЕКУНД
      ========================================================================= */
   async function waitRateLimitIfNeeded() {
     if (state.authMode !== 'nokey') return;
@@ -1527,7 +1782,7 @@
   }
 
   /* =========================================================================
-     БЕЗОПАСНОЕ ИЗВЛЕЧЕНИЕ ТОЛЬКО ТЕКСТА КОММЕНТАРИЕВ ИЗ ОТВЕТА POLLINATIONS
+     ИЗВЛЕЧЕНИЕ ЧИСТОГО ТЕКСТА ИЗ ОТВЕТА POLLINATIONS
      ========================================================================= */
   function extractContentFromRawResponse(rawText) {
     if (!rawText) return '';
@@ -1566,7 +1821,7 @@
     }
 
     if (/^<!DOCTYPE html>|^<html/i.test(trimmed)) {
-      throw new Error('Сервер Pollinations временно перегружен (HTML response)');
+      throw new Error('Сервер временно перегружен');
     }
 
     return trimmed;
@@ -1591,18 +1846,14 @@
   }
 
   /* =========================================================================
-     ТУРБО-ЗАПРОС К POLLINATIONS (БЕЗ ПРОТЕЧЕК СЫРЫХ ЛОГОВ В КОММЕНТАРИИ)
+     ЗАПРОС К POLLINATIONS (С ПОДДЕРЖКОЙ VISION И ДВОЙНЫМ РЕЗЕРВОМ)
      ========================================================================= */
   async function fetchPollinationsFast(systemPrompt, userText, onCommentReady) {
     const seed = Math.floor(Math.random() * 899999) + 100000;
-    const temperature = +(0.9 + Math.random() * 0.25).toFixed(2);
+    const temperature = +(0.9 + Math.random() * 0.22).toFixed(2);
     const isVision = state.inputTab === 'vision' && state.imagesBase64.length > 0;
 
-    const endpoint = isVision
-      ? 'https://gen.pollinations.ai/v1/chat/completions'
-      : 'https://text.pollinations.ai/openai';
-
-    const fastUserText = (userText || 'Обсуди тему').slice(0, 1200);
+    const fastUserText = (userText || (isVision ? 'Внимательно посмотри на фото и напиши живые комментарии к тому, что изображено.' : 'Обсуди тему')).slice(0, 1200);
 
     const headers = { 'Content-Type': 'application/json' };
     if (state.authMode === 'key' && state.apiKey) {
@@ -1611,9 +1862,14 @@
 
     let messages = [];
     if (isVision) {
-      const contentArr = [{ type: 'text', text: fastUserText }];
+      const contentArr = [
+        { type: 'text', text: fastUserText + '\n\n' + systemPrompt }
+      ];
       state.imagesBase64.forEach(function(b64) {
-        contentArr.push({ type: 'image_url', image_url: { url: b64 } });
+        contentArr.push({
+          type: 'image_url',
+          image_url: { url: b64 }
+        });
       });
       messages = [
         { role: 'system', content: systemPrompt },
@@ -1628,107 +1884,106 @@
 
     state.lastRequestTime = Date.now();
 
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(function() { controller.abort(); }, 30000);
+    // Список эндпоинтов: сначала быстрый универсальный, затем резервный Vision
+    const endpoints = isVision
+      ? ['https://text.pollinations.ai/openai', 'https://gen.pollinations.ai/v1/chat/completions']
+      : ['https://text.pollinations.ai/openai'];
 
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify({
-          model: 'openai',
-          messages: messages,
-          seed: seed,
-          temperature: temperature,
-          stream: !isVision
-        }),
-        signal: controller.signal
-      });
+    let lastErr = null;
 
-      clearTimeout(timeoutId);
+    for (let epIdx = 0; epIdx < endpoints.length; epIdx++) {
+      const endpoint = endpoints[epIdx];
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(function() { controller.abort(); }, 38000);
 
-      if (!response.ok) {
-        const errBody = await response.text();
-        throw new Error('HTTP ' + response.status + ' (' + errBody.slice(0, 60) + ')');
-      }
-
-      const contentType = response.headers.get('content-type') || '';
-
-      if (!isVision && response.body && contentType.includes('event-stream')) {
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder('utf-8');
-        let fullText = '';
-        let sseBuffer = '';
-        let emittedCount = 0;
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          sseBuffer += decoder.decode(value, { stream: true });
-
-          const lines = sseBuffer.split('\n');
-          sseBuffer = lines.pop() || '';
-
-          for (let i = 0; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (!line.startsWith('data:')) continue;
-            const dataStr = line.replace(/^data:\s*/, '').trim();
-            if (dataStr === '[DONE]') continue;
-            try {
-              const parsed = JSON.parse(dataStr);
-              const delta = parsed?.choices?.[0]?.delta?.content;
-              if (typeof delta === 'string' && delta.length > 0) {
-                fullText += delta;
-                const parts = splitRawComments(fullText);
-                while (parts.length > emittedCount + 1) {
-                  onCommentReady(parts[emittedCount]);
-                  emittedCount++;
-                }
-              }
-            } catch (e) {}
-          }
-        }
-
-        const finalParts = splitRawComments(fullText);
-        while (emittedCount < finalParts.length) {
-          onCommentReady(finalParts[emittedCount]);
-          emittedCount++;
-        }
-        return finalParts;
-      }
-
-      const rawText = await response.text();
-      const pureContent = extractContentFromRawResponse(rawText);
-      const list = splitRawComments(pureContent);
-      list.forEach(function(item) { onCommentReady(item); });
-      return list;
-
-    } catch (primaryErr) {
-      if (!isVision) {
-        const fallbackResp = await fetch('https://text.pollinations.ai/openai', {
+        const response = await fetch(endpoint, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: headers,
           body: JSON.stringify({
             model: 'openai',
             messages: messages,
             seed: seed,
             temperature: temperature,
-            stream: false
-          })
+            stream: !isVision
+          }),
+          signal: controller.signal
         });
-        if (!fallbackResp.ok) throw primaryErr;
-        const raw = await fallbackResp.text();
-        const pureContent = extractContentFromRawResponse(raw);
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          const errBody = await response.text();
+          throw new Error('HTTP ' + response.status + ' (' + errBody.slice(0, 70) + ')');
+        }
+
+        const contentType = response.headers.get('content-type') || '';
+
+        if (!isVision && response.body && contentType.includes('event-stream')) {
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder('utf-8');
+          let fullText = '';
+          let sseBuffer = '';
+          let emittedCount = 0;
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            sseBuffer += decoder.decode(value, { stream: true });
+
+            const lines = sseBuffer.split('\n');
+            sseBuffer = lines.pop() || '';
+
+            for (let i = 0; i < lines.length; i++) {
+              const line = lines[i].trim();
+              if (!line.startsWith('data:')) continue;
+              const dataStr = line.replace(/^data:\s*/, '').trim();
+              if (dataStr === '[DONE]') continue;
+              try {
+                const parsed = JSON.parse(dataStr);
+                const delta = parsed?.choices?.[0]?.delta?.content;
+                if (typeof delta === 'string' && delta.length > 0) {
+                  fullText += delta;
+                  const parts = splitRawComments(fullText);
+                  while (parts.length > emittedCount + 1) {
+                    onCommentReady(parts[emittedCount]);
+                    emittedCount++;
+                  }
+                }
+              } catch (e) {}
+            }
+          }
+
+          const finalParts = splitRawComments(fullText);
+          while (emittedCount < finalParts.length) {
+            onCommentReady(finalParts[emittedCount]);
+            emittedCount++;
+          }
+          return finalParts;
+        }
+
+        const rawText = await response.text();
+        const pureContent = extractContentFromRawResponse(rawText);
         const list = splitRawComments(pureContent);
+        if (list.length === 0 && isVision && epIdx === 0 && endpoints.length > 1) {
+          throw new Error('Пустой ответ, пробуем резервный Vision-канал');
+        }
         list.forEach(function(item) { onCommentReady(item); });
         return list;
+
+      } catch (err) {
+        lastErr = err;
+        if (epIdx + 1 < endpoints.length) {
+          addLog('🔄 Переключение на второй эндпоинт для распознавания фото...', 'warn');
+        }
       }
-      throw primaryErr;
     }
+
+    throw lastErr || new Error('Не удалось получить ответ от API');
   }
 
   /* =========================================================================
-     ТУРБО-ГЕНЕРАЦИЯ N КОММЕНТАРИЕВ (ПАРАЛЛЕЛЬНЫЕ ПОТОКИ + ДОБОР ДО 50 ШТ.)
+     ТУРБО-ГЕНЕРАЦИЯ N КОММЕНТАРИЕВ
      ========================================================================= */
   const btnGenerate = document.getElementById('btn-generate');
   btnGenerate.addEventListener('click', generateBatchComments);
@@ -1739,20 +1994,13 @@
       return;
     }
 
-    const postInputEl = document.getElementById('post-text');
-    let rawPost = postInputEl.value.trim();
+    let rawPost = postTextInput.value.trim();
     const isVision = state.inputTab === 'vision';
 
     if (!rawPost && (!isVision || state.imagesBase64.length === 0)) {
-      setStatus('⚠️ Введите текст поста или тему в поле выше!', 'error');
-      addLog('❌ Ошибка: поле «Текст поста или тема» пустое.', 'err');
-      postInputEl.focus();
-      return;
-    }
-
-    if (isVision && state.imagesBase64.length > 0 && state.authMode === 'nokey') {
-      setStatus('⚠️ Для картинок (Vision) переключитесь на «С ключом»!', 'error');
-      addLog('❌ Режим изображений работает только с API-ключом Pollinations.', 'err');
+      setStatus('⚠️ Введите текст поста или загрузите фото во вкладке «Комменты по фото»!', 'error');
+      addLog('❌ Ошибка: не введён текст и не загружено фото.', 'err');
+      postTextInput.focus();
       return;
     }
 
@@ -1764,13 +2012,10 @@
     const startTime = Date.now();
 
     try {
-      addLog('🚀 Турбо-старт: запрошено ' + targetCount + ' коммент.', 'info');
+      const ctx = analyzeUserInput(rawPost);
+      const cleanedText = ctx.cleanedText || (isVision ? 'Прокомментируй детали на изображении' : 'Обсуди тему поста');
 
-      const extracted = extractLinks(rawPost);
-      const cleanedText = extracted.cleanedText || 'Обсуди тему поста';
-      if (extracted.links.length > 0) {
-        addLog('🚫 Вырезано ссылок из поста: ' + extracted.links.length + ' шт. (в комментарии не попадут).', 'info');
-      }
+      addLog('🚀 Старт: запрошено ' + targetCount + ' коммент. | Пол/род: ' + elAuthorGender.value + ' | Тип: ' + ctx.type, 'info');
 
       state.comments = [];
       const container = document.getElementById('comments-container');
@@ -1783,26 +2028,24 @@
 
       let currentIndex = 0;
 
-      function handleIncomingComment(rawCommText) {
+      function handleIncomingComment(cleanCommText) {
         if (currentIndex >= targetCount) return;
-        const finalComm = sanitizeCommentText(rawCommText);
-        if (!finalComm) return;
-
-        if (currentIndex > 0 && state.comments[currentIndex - 1] === finalComm) return;
+        if (!cleanCommText) return;
+        if (currentIndex > 0 && state.comments[currentIndex - 1] === cleanCommText) return;
 
         const slotIdx = currentIndex;
-        state.comments[slotIdx] = finalComm;
+        state.comments[slotIdx] = cleanCommText;
         currentIndex++;
 
-        fillSlotDOM(slotIdx, finalComm);
+        fillSlotDOM(slotIdx, cleanCommText);
         updateCommentsMeta();
 
         const elapsedMs = Date.now() - startTime;
         setStatus('⚡ Сгенерировано: ' + currentIndex + ' из ' + targetCount + '...', 'loading');
-        addLog('✅ #' + currentIndex + '/' + targetCount + ' (' + elapsedMs + ' мс): "' + finalComm.slice(0, 48) + '..."', 'ok');
+        addLog('✅ #' + currentIndex + '/' + targetCount + ' (' + elapsedMs + ' мс): "' + cleanCommText.slice(0, 48) + '..."', 'ok');
       }
 
-      if (state.authMode === 'key' && targetCount > 18) {
+      if (state.authMode === 'key' && targetCount > 18 && !isVision) {
         const chunks = [];
         let left = targetCount;
         while (left > 0) {
@@ -1810,9 +2053,7 @@
           chunks.push(size);
           left -= size;
         }
-        addLog('⚡ Параллельный Турбо-режим: запуск ' + chunks.length + ' потоков (' + chunks.join(' + ') + ' шт.)', 'info');
-        setStatus('⚡ Параллельная генерация в ' + chunks.length + ' потоках...', 'loading');
-
+        addLog('⚡ Параллельный Турбо-режим: запуск ' + chunks.length + ' потоков', 'info');
         await Promise.all(chunks.map(function(chunkSize) {
           const angles = ANGLES.slice().sort(function() { return 0.5 - Math.random(); }).slice(0, 3);
           const sysPrompt = buildSystemPrompt(chunkSize, angles);
@@ -1822,7 +2063,7 @@
 
       let attempt = 0;
       const maxAttempts = 6;
-      const MAX_PER_REQUEST = 25;
+      const MAX_PER_REQUEST = isVision ? 15 : 25;
 
       while (currentIndex < targetCount && attempt < maxAttempts) {
         attempt++;
@@ -1850,7 +2091,7 @@
       updateCommentsMeta();
       const totalSec = ((Date.now() - startTime) / 1000).toFixed(1);
       setStatus('✅ Готово! Сгенерировано ' + state.comments.length + ' из ' + targetCount + ' коммент. за ' + totalSec + ' сек.', 'success');
-      addLog('🎉 Все ' + state.comments.length + ' коммент. сгенерированы за ' + totalSec + ' сек!', 'ok');
+      addLog('🎉 Все ' + state.comments.length + ' коммент. готовы за ' + totalSec + ' сек!', 'ok');
 
     } catch (err) {
       setStatus('❌ Ошибка генерации: ' + err.message, 'error');
@@ -1913,8 +2154,7 @@
 
   async function regenerateSingleComment(idx, btnEl) {
     if (state.isGenerating) return;
-    const rawPost = document.getElementById('post-text').value.trim();
-    const extracted = extractLinks(rawPost);
+    const ctx = analyzeUserInput(postTextInput.value);
 
     state.isGenerating = true;
     const oldText = btnEl.textContent;
@@ -1930,15 +2170,13 @@
 
       setStatus('⏳ Обновляем комментарий #' + (idx + 1) + '...', 'loading');
       let updated = false;
-      await fetchPollinationsFast(sysPrompt, extracted.cleanedText || 'Напиши 1 комментарий', function(oneComm) {
-        if (updated) return;
-        const finalComm = sanitizeCommentText(oneComm);
-        if (!finalComm) return;
+      await fetchPollinationsFast(sysPrompt, ctx.cleanedText || 'Напиши 1 комментарий', function(oneComm) {
+        if (updated || !oneComm) return;
         updated = true;
-        state.comments[idx] = finalComm;
-        fillSlotDOM(idx, finalComm);
+        state.comments[idx] = oneComm;
+        fillSlotDOM(idx, oneComm);
         setStatus('✅ Комментарий #' + (idx + 1) + ' обновлён!', 'success');
-        addLog('✅ Новый вариант для #' + (idx + 1) + ' готов: "' + finalComm.slice(0, 50) + '..."', 'ok');
+        addLog('✅ Новый вариант для #' + (idx + 1) + ' готов: "' + oneComm.slice(0, 50) + '..."', 'ok');
       });
     } catch (err) {
       setStatus('❌ Ошибка обновления #' + (idx + 1) + ': ' + err.message, 'error');
@@ -1964,7 +2202,6 @@
     else dlBtn.classList.add('hidden');
   }
 
-  // Кнопка «Скопировать все»
   document.getElementById('btn-copy-all').addEventListener('click', function(e) {
     const valid = state.comments.filter(Boolean);
     if (!valid.length) return;
@@ -1977,7 +2214,6 @@
     setTimeout(function() { btn.textContent = orig; }, 1600);
   });
 
-  // Кнопка «Очистить»
   document.getElementById('btn-clear').addEventListener('click', function() {
     state.comments = [];
     document.getElementById('comments-container').innerHTML =
@@ -1987,7 +2223,6 @@
     addLog('🧹 Список комментариев очищен.', 'info');
   });
 
-  // Кнопка «Скачать в TXT»
   document.getElementById('btn-download-txt').addEventListener('click', function() {
     const valid = state.comments.filter(Boolean);
     if (!valid.length) return;
@@ -2003,7 +2238,163 @@
   });
 
   /* =========================================================================
-     РАЗДЕЛ 2: ГЕНЕРАТОР ПАРОЛЕЙ
+     РАЗДЕЛ 2: ГЕНЕРАТОР ФОТО ПО ОПИСАНИЮ (IMAGE GENERATOR)
+     ========================================================================= */
+  const imgPromptInput = document.getElementById('img-prompt-input');
+  const imgAspectSelect = document.getElementById('img-aspect');
+  const imgModelSelect = document.getElementById('img-model');
+  const imgStylePreset = document.getElementById('img-style-preset');
+  const btnCreateImg = document.getElementById('btn-create-image');
+  const btnEnhancePrompt = document.getElementById('btn-enhance-img-prompt');
+  const imgStatusBox = document.getElementById('img-status-box');
+  const generatedImgEl = document.getElementById('generated-img-el');
+  const imgPlaceholderText = document.getElementById('img-placeholder-text');
+  const imgReadyActions = document.getElementById('img-ready-actions');
+
+  function setImgStatus(msg, type = '') {
+    imgStatusBox.textContent = msg;
+    imgStatusBox.className = 'status-line ' + type;
+  }
+
+  // Улучшение описания картинки через текстовый ИИ
+  btnEnhancePrompt.addEventListener('click', async function() {
+    const raw = imgPromptInput.value.trim();
+    if (!raw) {
+      setImgStatus('⚠️ Напишите хотя бы пару слов описания, чтобы ИИ мог его улучшить!', 'error');
+      return;
+    }
+    btnEnhancePrompt.disabled = true;
+    btnEnhancePrompt.textContent = '⏳ Улучшаем...';
+    setImgStatus('✨ Нейросеть детализирует ваше описание...', 'loading');
+
+    try {
+      const resp = await fetch('https://text.pollinations.ai/openai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'openai',
+          messages: [
+            { role: 'system', content: 'Ты профессиональный промт-инженер. Расширь и красиво дополни описание изображения от пользователя на русском языке (2-3 предложения с деталями освещения, композиции и атмосферы). Выведи ТОЛЬКО готовое описание без кавычек и вступлений.' },
+            { role: 'user', content: raw }
+          ]
+        })
+      });
+      const text = await resp.text();
+      const enhanced = extractContentFromRawResponse(text);
+      if (enhanced) {
+        imgPromptInput.value = enhanced.trim();
+        setImgStatus('✅ Описание успешно улучшено!', 'success');
+      }
+    } catch (e) {
+      setImgStatus('❌ Не удалось улучшить описание: ' + e.message, 'error');
+    } finally {
+      btnEnhancePrompt.disabled = false;
+      btnEnhancePrompt.textContent = '✨ Улучшить описание через ИИ';
+    }
+  });
+
+  // Генерация самого фото
+  btnCreateImg.addEventListener('click', function() {
+    const rawPrompt = imgPromptInput.value.trim();
+    if (!rawPrompt) {
+      setImgStatus('⚠️ Введите описание фотографии!', 'error');
+      imgPromptInput.focus();
+      return;
+    }
+
+    const dims = imgAspectSelect.value.split('x');
+    const width = parseInt(dims[0], 10) || 1024;
+    const height = parseInt(dims[1], 10) || 1024;
+    const model = imgModelSelect.value || 'flux';
+    const preset = imgStylePreset.value;
+    const seed = Math.floor(Math.random() * 999999);
+
+    const fullPrompt = preset ? (rawPrompt + ', ' + preset) : rawPrompt;
+    const encodedPrompt = encodeURIComponent(fullPrompt);
+    const imgUrl = 'https://image.pollinations.ai/prompt/' + encodedPrompt +
+      '?width=' + width + '&height=' + height + '&seed=' + seed + '&model=' + model + '&nologo=true';
+
+    btnCreateImg.disabled = true;
+    btnCreateImg.textContent = '⏳ Рисуем фото...';
+    setImgStatus('🎨 Генерация изображения (' + width + '×' + height + ')... Подождите 4–10 секунд.', 'loading');
+    imgPlaceholderText.textContent = '⏳ Нейросеть рисует ваше изображение...';
+    imgPlaceholderText.classList.remove('hidden');
+    generatedImgEl.classList.add('hidden');
+    imgReadyActions.classList.add('hidden');
+
+    generatedImgEl.onload = function() {
+      state.lastGeneratedImageUrl = imgUrl;
+      imgPlaceholderText.classList.add('hidden');
+      generatedImgEl.classList.remove('hidden');
+      imgReadyActions.classList.remove('hidden');
+      btnCreateImg.disabled = false;
+      btnCreateImg.textContent = '🎨 Сгенерировать фото';
+      setImgStatus('✅ Фотография успешно сгенерирована!', 'success');
+    };
+
+    generatedImgEl.onerror = function() {
+      btnCreateImg.disabled = false;
+      btnCreateImg.textContent = '🎨 Сгенерировать фото';
+      imgPlaceholderText.textContent = 'Не удалось загрузить изображение. Попробуйте нажать ещё раз или сменить модель на Turbo.';
+      setImgStatus('❌ Ошибка загрузки изображения, попробуйте ещё раз.', 'error');
+    };
+
+    generatedImgEl.src = imgUrl;
+  });
+
+  // Скачивание сгенерированного фото
+  document.getElementById('btn-download-img').addEventListener('click', async function() {
+    if (!state.lastGeneratedImageUrl) return;
+    try {
+      const resp = await fetch(state.lastGeneratedImageUrl);
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'ai_photo_' + Date.now() + '.jpg';
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      window.open(state.lastGeneratedImageUrl, '_blank');
+    }
+  });
+
+  // Перенос сгенерированного фото сразу в генератор комментариев (Vision)
+  document.getElementById('btn-use-img-for-comments').addEventListener('click', function() {
+    if (!generatedImgEl.src) return;
+    try {
+      const canvas = document.createElement('canvas');
+      const maxDim = 800;
+      let w = generatedImgEl.naturalWidth || 800;
+      let h = generatedImgEl.naturalHeight || 800;
+      if (w > maxDim || h > maxDim) {
+        if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+        else { w = Math.round((w * maxDim) / h); h = maxDim; }
+      }
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(generatedImgEl, 0, 0, w, h);
+      const b64 = canvas.toDataURL('image/jpeg', 0.8);
+
+      state.imagesBase64 = [b64];
+      renderImagePreviews();
+      postTextInput.value = imgPromptInput.value.trim();
+      analyzeUserInput(postTextInput.value);
+
+      switchSection(navComm, secComm);
+      tabVision.click();
+      addLog('🎨 Сгенерированное фото автоматически прикреплено для генерации комментариев!', 'ok');
+      setStatus('Фото прикреплено! Нажмите «Сгенерировать новые» для создания комментариев.', 'success');
+    } catch (err) {
+      switchSection(navComm, secComm);
+      postTextInput.value = imgPromptInput.value.trim();
+      analyzeUserInput(postTextInput.value);
+    }
+  });
+
+  /* =========================================================================
+     РАЗДЕЛ 3: ГЕНЕРАТОР ПАРОЛЕЙ
      ========================================================================= */
   const pwSlider = document.getElementById('pw-len-slider');
   const pwLenVal = document.getElementById('pw-len-val');
@@ -2081,27 +2472,31 @@
   });
 
   /* =========================================================================
-     НАВИГАЦИЯ МЕЖДУ 3 РАЗДЕЛАМИ И ОНЛАЙН-СЧЁТЧИК ВКЛАДОК
+     НАВИГАЦИЯ МЕЖДУ 4 РАЗДЕЛАМИ И ОНЛАЙН-СЧЁТЧИК ВКЛАДОК
      ========================================================================= */
   const navComm = document.getElementById('nav-to-comments');
+  const navImgGen = document.getElementById('nav-to-imggen');
   const navPass = document.getElementById('nav-to-passwords');
   const navInst = document.getElementById('nav-to-instructions');
   const btnSideGuide = document.getElementById('btn-side-open-guide');
   const btnBackToGen = document.getElementById('btn-back-to-gen');
 
   const secComm = document.getElementById('sec-comments');
+  const secImgGen = document.getElementById('sec-imggen');
   const secPass = document.getElementById('sec-passwords');
   const secInst = document.getElementById('sec-instructions');
 
   function switchSection(activeBtn, activeSec) {
-    [navComm, navPass, navInst].forEach(function(b) { b.classList.remove('active'); });
-    [secComm, secPass, secInst].forEach(function(s) { s.classList.add('hidden'); });
+    [navComm, navImgGen, navPass, navInst].forEach(function(b) { b.classList.remove('active'); });
+    [secComm, secImgGen, secPass, secInst].forEach(function(s) { s.classList.add('hidden'); });
     activeBtn.classList.add('active');
     activeSec.classList.remove('hidden');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   navComm.addEventListener('click', function() { switchSection(navComm, secComm); });
+  navImgGen.addEventListener('click', function() { switchSection(navImgGen, secImgGen); });
+  tabJumpImgGen.addEventListener('click', function() { switchSection(navImgGen, secImgGen); });
   navPass.addEventListener('click', function() {
     switchSection(navPass, secPass);
     generatePassword();
